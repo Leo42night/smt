@@ -1,0 +1,1402 @@
+(base) leo@Leo:.../NLP/smt
+$ export pathsmt="$ROOTPATH/smt" # root project ini
+(base) leo@Leo:.../NLP/smt
+$ nano ~/.bashrc
+(base) leo@Leo:.../NLP/smt
+$ source ~/.bashrc
+(base) leo@Leo:.../NLP/smt
+$ nano ~/.bashrc
+(base) leo@Leo:.../NLP/smt
+$ source ~/.bashrc
+(base) leo@Leo:.../NLP/smt
+$ echo $ROOTPATH
+/mnt/c/Users/ADVAN/Documents/sm7/NLP
+(base) leo@Leo:.../NLP/smt
+$ echo $pathsmt
+/smt
+(base) leo@Leo:.../NLP/smt
+$
+export pathsmt="$ROOTPATH/smt" # root project ini
+export pathmoses="$ROOTPATH/util/mosesdecoder"
+export pathsrilm="$ROOTPATH/util/srilm"
+(base) leo@Leo:.../NLP/smt
+$ echo $pathsmt
+/mnt/c/Users/ADVAN/Documents/sm7/NLP/smt
+(base) leo@Leo:.../NLP/smt
+$ cd $pathsmt
+(base) leo@Leo:.../NLP/smt
+$ $pathmoses/scripts/training/clean-corpus-n.perl corpus/korpus id smb corpus/clean 1 20
+clean-corpus.perl: processing corpus/korpus.id & .smb to corpus/clean, cutoff 1-20, ratio 9
+Error: corpus/korpus.id does not exist at /mnt/c/Users/ADVAN/Documents/sm7/NLP/util/mosesdecoder/scripts/training/clean-corpus-n.perl line 58.
+(base) leo@Leo:.../NLP/smt
+$ $pathmoses/scripts/training/clean-corpus-n.perl corpus/korpus id smb corpus/clean 1 20
+clean-corpus.perl: processing corpus/korpus.id & .smb to corpus/clean, cutoff 1-20, ratio 9
+corpus/korpus.smb is too short! at /mnt/c/Users/ADVAN/Documents/sm7/NLP/util/mosesdecoder/scripts/training/clean-corpus-n.perl line 96, <E> line 9101.
+(base) leo@Leo:.../NLP/smt
+$ $pathmoses/scripts/tokenizer/lowercase.perl < corpus/clean.id > corpus/lowercased.id
+(base) leo@Leo:.../NLP/smt
+$ $pathmoses/scripts/tokenizer/lowercase.perl < corpus/clean.id > corpus/lowercased.id
+(base) leo@Leo:.../NLP/smt
+$ $pathmoses/scripts/tokenizer/lowercase.perl < corpus/clean.smb > corpus/lowercased.smb
+(base) leo@Leo:.../NLP/smt
+$ $pathmoses/scripts/tokenizer/tokenizer.perl < corpus/lowercased.id > corpus/tokenized.id
+Tokenizer Version 1.1
+Language: en
+Number of threads: 1
+(base) leo@Leo:.../NLP/smt
+$ $pathmoses/scripts/tokenizer/tokenizer.perl < corpus/lowercased.smb > corpus/tokenized.smb
+Tokenizer Version 1.1
+Language: en
+Number of threads: 1
+(base) leo@Leo:.../NLP/smt
+$ cd $pathsmt
+(base) leo@Leo:.../NLP/smt
+$ mkdir lm
+(base) leo@Leo:.../NLP/smt
+$ $pathsrilm/bin/i686-m64/ngram-count -order 3 interpolate -unk -text corpus/tokenized.id -lm lm/id.lm
+warning: discount coeff 1 is out of range: 0
+(base) leo@Leo:.../NLP/smt
+$ $pathmoses/scripts/training/train-model.perl -root-dir . --corpus corpus/tokenized --f smb --e id --lm 0:3:$pathsmt/lm/id.lm -external-bin-dir $pathmoses/bin
+Using SCRIPTS_ROOTDIR: /mnt/c/Users/ADVAN/Documents/sm7/NLP/util/mosesdecoder/scripts
+Using single-thread GIZA
+using pigz
+(1) preparing corpus @ Mon Nov 24 09:41:19 WIB 2025
+Executing: mkdir -p /mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/corpus
+(1.0) selecting factors @ Mon Nov 24 09:41:19 WIB 2025
+(1.1) running mkcls  @ Mon Nov 24 09:41:19 WIB 2025
+/mnt/c/Users/ADVAN/Documents/sm7/NLP/util/mosesdecoder/bin/mkcls -c50 -n2 -p/mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/corpus/tokenized.smb -V/mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/corpus/smb.vcb.classes opt
+Executing: /mnt/c/Users/ADVAN/Documents/sm7/NLP/util/mosesdecoder/bin/mkcls -c50 -n2 -p/mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/corpus/tokenized.smb -V/mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/corpus/smb.vcb.classes opt
+
+***** 2 runs. (algorithm:TA)*****
+;KategProblem:cats: 50   words: 10422
+
+start-costs: MEAN: 731317 (731052-731582)  SIGMA:264.787
+  end-costs: MEAN: 672678 (672588-672769)  SIGMA:90.2635
+   start-pp: MEAN: 925.419 (921.737-929.101)  SIGMA:3.68206
+     end-pp: MEAN: 383.411 (382.891-383.931)  SIGMA:0.520038
+ iterations: MEAN: 246611 (239207-254015)  SIGMA:7404
+       time: MEAN: 3.13015 (3.07932-3.18099)  SIGMA:0.050834
+(1.1) running mkcls  @ Mon Nov 24 09:41:29 WIB 2025
+/mnt/c/Users/ADVAN/Documents/sm7/NLP/util/mosesdecoder/bin/mkcls -c50 -n2 -p/mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/corpus/tokenized.id -V/mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/corpus/id.vcb.classes opt
+Executing: /mnt/c/Users/ADVAN/Documents/sm7/NLP/util/mosesdecoder/bin/mkcls -c50 -n2 -p/mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/corpus/tokenized.id -V/mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/corpus/id.vcb.classes opt
+
+***** 2 runs. (algorithm:TA)*****
+;KategProblem:cats: 50   words: 7916
+
+start-costs: MEAN: 730494 (730001-730988)  SIGMA:493.68
+  end-costs: MEAN: 675946 (675347-676545)  SIGMA:599.178
+   start-pp: MEAN: 694.563 (689.419-699.706)  SIGMA:5.14379
+     end-pp: MEAN: 306.429 (303.675-309.183)  SIGMA:2.75429
+ iterations: MEAN: 188434 (184779-192090)  SIGMA:3655.5
+       time: MEAN: 2.17956 (2.16021-2.19891)  SIGMA:0.0193475
+(1.2) creating vcb file /mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/corpus/smb.vcb @ Mon Nov 24 09:41:36 WIB 2025
+(1.2) creating vcb file /mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/corpus/id.vcb @ Mon Nov 24 09:41:36 WIB 2025
+(1.3) numberizing corpus /mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/corpus/smb-id-int-train.snt @ Mon Nov 24 09:41:36 WIB 2025
+(1.3) numberizing corpus /mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/corpus/id-smb-int-train.snt @ Mon Nov 24 09:41:36 WIB 2025
+(2) running giza @ Mon Nov 24 09:41:36 WIB 2025
+(2.1a) running snt2cooc smb-id @ Mon Nov 24 09:41:36 WIB 2025
+
+Executing: mkdir -p /mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/giza.smb-id
+/mnt/c/Users/ADVAN/Documents/sm7/NLP/util/mosesdecoder/bin/snt2cooc.out /mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/corpus/id.vcb /mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/corpus/smb.vcb /mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/corpus/smb-id-int-train.snt > /mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/giza.smb-id/smb-id.cooc
+Executing: /mnt/c/Users/ADVAN/Documents/sm7/NLP/util/mosesdecoder/bin/snt2cooc.out /mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/corpus/id.vcb /mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/corpus/smb.vcb /mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/corpus/smb-id-int-train.snt > /mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/giza.smb-id/smb-id.cooc
+line 1000
+line 2000
+line 3000
+line 4000
+line 5000
+line 6000
+END.
+(2.1b) running giza smb-id @ Mon Nov 24 09:41:37 WIB 2025
+/mnt/c/Users/ADVAN/Documents/sm7/NLP/util/mosesdecoder/bin/GIZA++  -CoocurrenceFile /mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/giza.smb-id/smb-id.cooc -c /mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/corpus/smb-id-int-train.snt -m1 5 -m2 0 -m3 3 -m4 3 -model1dumpfrequency 1 -model4smoothfactor 0.4 -nodumps 1 -nsmooth 4 -o /mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/giza.smb-id/smb-id -onlyaldumps 1 -p0 0.999 -s /mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/corpus/id.vcb -t /mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/corpus/smb.vcb
+/mnt/c/Users/ADVAN/Documents/sm7/NLP/util/mosesdecoder/bin/GIZA++  -CoocurrenceFile /mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/giza.smb-id/smb-id.cooc -c /mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/corpus/smb-id-int-train.snt -m1 5 -m2 0 -m3 3 -m4 3 -model1dumpfrequency 1 -model4smoothfactor 0.4 -nodumps 1 -nsmooth 4 -o /mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/giza.smb-id/smb-id -onlyaldumps 1 -p0 0.999 -s /mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/corpus/id.vcb -t /mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/corpus/smb.vcb
+Executing: /mnt/c/Users/ADVAN/Documents/sm7/NLP/util/mosesdecoder/bin/GIZA++  -CoocurrenceFile /mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/giza.smb-id/smb-id.cooc -c /mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/corpus/smb-id-int-train.snt -m1 5 -m2 0 -m3 3 -m4 3 -model1dumpfrequency 1 -model4smoothfactor 0.4 -nodumps 1 -nsmooth 4 -o /mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/giza.smb-id/smb-id -onlyaldumps 1 -p0 0.999 -s /mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/corpus/id.vcb -t /mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/corpus/smb.vcb
+Parameter 'coocurrencefile' changed from '' to '/mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/giza.smb-id/smb-id.cooc'
+Parameter 'c' changed from '' to '/mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/corpus/smb-id-int-train.snt'
+Parameter 'm3' changed from '5' to '3'
+Parameter 'm4' changed from '5' to '3'
+Parameter 'model1dumpfrequency' changed from '0' to '1'
+Parameter 'model4smoothfactor' changed from '0.2' to '0.4'
+Parameter 'nodumps' changed from '0' to '1'
+Parameter 'nsmooth' changed from '64' to '4'
+Parameter 'o' changed from '2025-11-24.094137.leo' to '/mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/giza.smb-id/smb-id'
+Parameter 'onlyaldumps' changed from '0' to '1'
+Parameter 'p0' changed from '-1' to '0.999'
+Parameter 's' changed from '' to '/mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/corpus/id.vcb'
+Parameter 't' changed from '' to '/mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/corpus/smb.vcb'
+general parameters:
+-------------------
+ml = 101  (maximum sentence length)
+
+No. of iterations:
+-------------------
+hmmiterations = 5  (mh)
+model1iterations = 5  (number of iterations for Model 1)
+model2iterations = 0  (number of iterations for Model 2)
+model3iterations = 3  (number of iterations for Model 3)
+model4iterations = 3  (number of iterations for Model 4)
+model5iterations = 0  (number of iterations for Model 5)
+model6iterations = 0  (number of iterations for Model 6)
+
+parameter for various heuristics in GIZA++ for efficient training:
+------------------------------------------------------------------
+countincreasecutoff = 1e-06  (Counts increment cutoff threshold)
+countincreasecutoffal = 1e-05  (Counts increment cutoff threshold for alignments in training of fertility models)
+mincountincrease = 1e-07  (minimal count increase)
+peggedcutoff = 0.03  (relative cutoff probability for alignment-centers in pegging)
+probcutoff = 1e-07  (Probability cutoff threshold for lexicon probabilities)
+probsmooth = 1e-07  (probability smoothing (floor) value )
+
+parameters for describing the type and amount of output:
+-----------------------------------------------------------
+compactalignmentformat = 0  (0: detailled alignment format, 1: compact alignment format )
+hmmdumpfrequency = 0  (dump frequency of HMM)
+l = 2025-11-24.094137.leo.log  (log file name)
+log = 0  (0: no logfile; 1: logfile)
+model1dumpfrequency = 1  (dump frequency of Model 1)
+model2dumpfrequency = 0  (dump frequency of Model 2)
+model345dumpfrequency = 0  (dump frequency of Model 3/4/5)
+nbestalignments = 0  (for printing the n best alignments)
+nodumps = 1  (1: do not write any files)
+o = /mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/giza.smb-id/smb-id  (output file prefix)
+onlyaldumps = 1  (1: do not write any files)
+outputpath =   (output path)
+transferdumpfrequency = 0  (output: dump of transfer from Model 2 to 3)
+verbose = 0  (0: not verbose; 1: verbose)
+verbosesentence = -10  (number of sentence for which a lot of information should be printed (negative: no output))
+
+parameters describing input files:
+----------------------------------
+c = /mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/corpus/smb-id-int-train.snt  (training corpus file name)
+d =   (dictionary file name)
+s = /mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/corpus/id.vcb  (source vocabulary file name)
+t = /mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/corpus/smb.vcb  (target vocabulary file name)
+tc =   (test corpus file name)
+
+smoothing parameters:
+---------------------
+emalsmooth = 0.2  (f-b-trn: smoothing factor for HMM alignment model (can be ignored by -emSmoothHMM))
+model23smoothfactor = 0  (smoothing parameter for IBM-2/3 (interpolation with constant))
+model4smoothfactor = 0.4  (smooting parameter for alignment probabilities in Model 4)
+model5smoothfactor = 0.1  (smooting parameter for distortion probabilities in Model 5 (linear interpolation with constant))
+nsmooth = 4  (smoothing for fertility parameters (good value: 64): weight for wordlength-dependent fertility parameters)
+nsmoothgeneral = 0  (smoothing for fertility parameters (default: 0): weight for word-independent fertility parameters)
+
+parameters modifying the models:
+--------------------------------
+compactadtable = 1  (1: only 3-dimensional alignment table for IBM-2 and IBM-3)
+deficientdistortionforemptyword = 0  (0: IBM-3/IBM-4 as described in (Brown et al. 1993); 1: distortion model of empty word is deficient; 2: distoriton model of empty word is deficient (differently); setting this parameter also helps to avoid that during IBM-3 and IBM-4 training too many words are aligned with the empty word)
+depm4 = 76  (d_{=1}: &1:l, &2:m, &4:F, &8:E, d_{>1}&16:l, &32:m, &64:F, &128:E)
+depm5 = 68  (d_{=1}: &1:l, &2:m, &4:F, &8:E, d_{>1}&16:l, &32:m, &64:F, &128:E)
+emalignmentdependencies = 2  (lextrain: dependencies in the HMM alignment model.  &1: sentence length; &2: previous class; &4: previous position;  &8: French position; &16: French class)
+emprobforempty = 0.4  (f-b-trn: probability for empty word)
+
+parameters modifying the EM-algorithm:
+--------------------------------------
+m5p0 = -1  (fixed value for parameter p_0 in IBM-5 (if negative then it is determined in training))
+manlexfactor1 = 0  ()
+manlexfactor2 = 0  ()
+manlexmaxmultiplicity = 20  ()
+maxfertility = 10  (maximal fertility for fertility models)
+p0 = 0.999  (fixed value for parameter p_0 in IBM-3/4 (if negative then it is determined in training))
+pegging = 0  (0: no pegging; 1: do pegging)
+
+general parameters:
+-------------------
+ml = 101  (maximum sentence length)
+
+No. of iterations:
+-------------------
+hmmiterations = 5  (mh)
+model1iterations = 5  (number of iterations for Model 1)
+model2iterations = 0  (number of iterations for Model 2)
+model3iterations = 3  (number of iterations for Model 3)
+model4iterations = 3  (number of iterations for Model 4)
+model5iterations = 0  (number of iterations for Model 5)
+model6iterations = 0  (number of iterations for Model 6)
+
+parameter for various heuristics in GIZA++ for efficient training:
+------------------------------------------------------------------
+countincreasecutoff = 1e-06  (Counts increment cutoff threshold)
+countincreasecutoffal = 1e-05  (Counts increment cutoff threshold for alignments in training of fertility models)
+mincountincrease = 1e-07  (minimal count increase)
+peggedcutoff = 0.03  (relative cutoff probability for alignment-centers in pegging)
+probcutoff = 1e-07  (Probability cutoff threshold for lexicon probabilities)
+probsmooth = 1e-07  (probability smoothing (floor) value )
+
+parameters for describing the type and amount of output:
+-----------------------------------------------------------
+compactalignmentformat = 0  (0: detailled alignment format, 1: compact alignment format )
+hmmdumpfrequency = 0  (dump frequency of HMM)
+l = 2025-11-24.094137.leo.log  (log file name)
+log = 0  (0: no logfile; 1: logfile)
+model1dumpfrequency = 1  (dump frequency of Model 1)
+model2dumpfrequency = 0  (dump frequency of Model 2)
+model345dumpfrequency = 0  (dump frequency of Model 3/4/5)
+nbestalignments = 0  (for printing the n best alignments)
+nodumps = 1  (1: do not write any files)
+o = /mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/giza.smb-id/smb-id  (output file prefix)
+onlyaldumps = 1  (1: do not write any files)
+outputpath =   (output path)
+transferdumpfrequency = 0  (output: dump of transfer from Model 2 to 3)
+verbose = 0  (0: not verbose; 1: verbose)
+verbosesentence = -10  (number of sentence for which a lot of information should be printed (negative: no output))
+
+parameters describing input files:
+----------------------------------
+c = /mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/corpus/smb-id-int-train.snt  (training corpus file name)
+d =   (dictionary file name)
+s = /mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/corpus/id.vcb  (source vocabulary file name)
+t = /mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/corpus/smb.vcb  (target vocabulary file name)
+tc =   (test corpus file name)
+
+smoothing parameters:
+---------------------
+emalsmooth = 0.2  (f-b-trn: smoothing factor for HMM alignment model (can be ignored by -emSmoothHMM))
+model23smoothfactor = 0  (smoothing parameter for IBM-2/3 (interpolation with constant))
+model4smoothfactor = 0.4  (smooting parameter for alignment probabilities in Model 4)
+model5smoothfactor = 0.1  (smooting parameter for distortion probabilities in Model 5 (linear interpolation with constant))
+nsmooth = 4  (smoothing for fertility parameters (good value: 64): weight for wordlength-dependent fertility parameters)
+nsmoothgeneral = 0  (smoothing for fertility parameters (default: 0): weight for word-independent fertility parameters)
+
+parameters modifying the models:
+--------------------------------
+compactadtable = 1  (1: only 3-dimensional alignment table for IBM-2 and IBM-3)
+deficientdistortionforemptyword = 0  (0: IBM-3/IBM-4 as described in (Brown et al. 1993); 1: distortion model of empty word is deficient; 2: distoriton model of empty word is deficient (differently); setting this parameter also helps to avoid that during IBM-3 and IBM-4 training too many words are aligned with the empty word)
+depm4 = 76  (d_{=1}: &1:l, &2:m, &4:F, &8:E, d_{>1}&16:l, &32:m, &64:F, &128:E)
+depm5 = 68  (d_{=1}: &1:l, &2:m, &4:F, &8:E, d_{>1}&16:l, &32:m, &64:F, &128:E)
+emalignmentdependencies = 2  (lextrain: dependencies in the HMM alignment model.  &1: sentence length; &2: previous class; &4: previous position;  &8: French position; &16: French class)
+emprobforempty = 0.4  (f-b-trn: probability for empty word)
+
+parameters modifying the EM-algorithm:
+--------------------------------------
+m5p0 = -1  (fixed value for parameter p_0 in IBM-5 (if negative then it is determined in training))
+manlexfactor1 = 0  ()
+manlexfactor2 = 0  ()
+manlexmaxmultiplicity = 20  ()
+maxfertility = 10  (maximal fertility for fertility models)
+p0 = 0.999  (fixed value for parameter p_0 in IBM-3/4 (if negative then it is determined in training))
+pegging = 0  (0: no pegging; 1: do pegging)
+
+reading vocabulary files
+Reading vocabulary file from:/mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/corpus/id.vcb
+Reading vocabulary file from:/mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/corpus/smb.vcb
+Source vocabulary list has 7917 unique tokens
+Target vocabulary list has 10423 unique tokens
+Calculating vocabulary frequencies from corpus /mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/corpus/smb-id-int-train.snt
+Reading more sentence pairs into memory ...
+WARNING: The following sentence pair has source/target sentence length ration more than
+the maximum allowed limit for a source word fertility
+ source length = 2 target length = 21 ratio 10.5 ferility limit : 9
+Shortening sentence
+Sent No: 5030 , No. Occurrences: 1
+0 235 93
+178 56 59 3 6 89 353 3 2588 122 81 80 3334 59 3 6 89 2588 243 128 20
+WARNING: The following sentence pair has source/target sentence length ration more than
+the maximum allowed limit for a source word fertility
+ source length = 2 target length = 23 ratio 11.5 ferility limit : 9
+Shortening sentence
+Sent No: 5159 , No. Occurrences: 1
+0 1803 1595
+646 219 3 53 153 3 2138 152 219 3 53 357 3 65 32 80 422 152 59 3 422 152 20
+WARNING: The following sentence pair has source/target sentence length ration more than
+the maximum allowed limit for a source word fertility
+ source length = 2 target length = 19 ratio 9.5 ferility limit : 9
+Shortening sentence
+Sent No: 5366 , No. Occurrences: 1
+0 1889 701
+155 3 537 3 45 3 81 437 6 204 334 45 3 81 4827 398 103 3 3521
+Corpus fits in memory, corpus has: 6339 sentence pairs.
+ Train total # sentence pairs (weighted): 6339
+Size of source portion of the training corpus: 60321 tokens
+Size of the target portion of the training corpus: 60153 tokens
+In source portion of the training corpus, only 7916 unique tokens appeared
+In target portion of the training corpus, only 10420 unique tokens appeared
+lambda for PP calculation in IBM-1,IBM-2,HMM:= 60153/(66660-6339)== 0.997215
+There are 385196 385196 entries in table
+==========================================================
+Model1 Training Started at: Mon Nov 24 09:41:37 2025
+
+-----------
+Model1: Iteration 1
+Model1: (1) TRAIN CROSS-ENTROPY 13.7471 PERPLEXITY 13749.7
+Model1: (1) VITERBI TRAIN CROSS-ENTROPY 17.2592 PERPLEXITY 156870
+Model 1 Iteration: 1 took: 0 seconds
+-----------
+Model1: Iteration 2
+Model1: (2) TRAIN CROSS-ENTROPY 6.25958 PERPLEXITY 76.6164
+Model1: (2) VITERBI TRAIN CROSS-ENTROPY 7.79152 PERPLEXITY 221.555
+Model 1 Iteration: 2 took: 1 seconds
+-----------
+Model1: Iteration 3
+Model1: (3) TRAIN CROSS-ENTROPY 5.53187 PERPLEXITY 46.2656
+Model1: (3) VITERBI TRAIN CROSS-ENTROPY 6.57072 PERPLEXITY 95.0571
+Model 1 Iteration: 3 took: 0 seconds
+-----------
+Model1: Iteration 4
+Model1: (4) TRAIN CROSS-ENTROPY 5.2237 PERPLEXITY 37.3672
+Model1: (4) VITERBI TRAIN CROSS-ENTROPY 6.02144 PERPLEXITY 64.9584
+Model 1 Iteration: 4 took: 0 seconds
+-----------
+Model1: Iteration 5
+Model1: (5) TRAIN CROSS-ENTROPY 5.11541 PERPLEXITY 34.665
+Model1: (5) VITERBI TRAIN CROSS-ENTROPY 5.79973 PERPLEXITY 55.7048
+Model 1 Iteration: 5 took: 0 seconds
+Entire Model1 Training took: 1 seconds
+NOTE: I am doing iterations with the HMM model!
+Read classes: #words: 7916  #classes: 51
+Read classes: #words: 10422  #classes: 51
+
+==========================================================
+Hmm Training Started at: Mon Nov 24 09:41:38 2025
+
+-----------
+Hmm: Iteration 1
+A/D table contains 9489 parameters.
+Hmm: (1) TRAIN CROSS-ENTROPY 5.07087 PERPLEXITY 33.6112
+Hmm: (1) VITERBI TRAIN CROSS-ENTROPY 5.69277 PERPLEXITY 51.7243
+
+Hmm Iteration: 1 took: 0 seconds
+
+-----------
+Hmm: Iteration 2
+A/D table contains 9489 parameters.
+Hmm: (2) TRAIN CROSS-ENTROPY 4.15902 PERPLEXITY 17.8645
+Hmm: (2) VITERBI TRAIN CROSS-ENTROPY 4.40659 PERPLEXITY 21.2088
+
+Hmm Iteration: 2 took: 1 seconds
+
+-----------
+Hmm: Iteration 3
+A/D table contains 9489 parameters.
+Hmm: (3) TRAIN CROSS-ENTROPY 3.67295 PERPLEXITY 12.7546
+Hmm: (3) VITERBI TRAIN CROSS-ENTROPY 3.81865 PERPLEXITY 14.11
+
+Hmm Iteration: 3 took: 0 seconds
+
+-----------
+Hmm: Iteration 4
+A/D table contains 9489 parameters.
+Hmm: (4) TRAIN CROSS-ENTROPY 3.47379 PERPLEXITY 11.11
+Hmm: (4) VITERBI TRAIN CROSS-ENTROPY 3.58026 PERPLEXITY 11.961
+
+Hmm Iteration: 4 took: 1 seconds
+
+-----------
+Hmm: Iteration 5
+A/D table contains 9489 parameters.
+Hmm: (5) TRAIN CROSS-ENTROPY 3.3797 PERPLEXITY 10.4085
+Hmm: (5) VITERBI TRAIN CROSS-ENTROPY 3.4648 PERPLEXITY 11.041
+
+Hmm Iteration: 5 took: 0 seconds
+
+Entire Hmm Training took: 2 seconds
+==========================================================
+Read classes: #words: 7916  #classes: 51
+Read classes: #words: 10422  #classes: 51
+Read classes: #words: 7916  #classes: 51
+Read classes: #words: 10422  #classes: 51
+
+==========================================================
+Starting H333444:  Viterbi Training
+ H333444 Training Started at: Mon Nov 24 09:41:40 2025
+
+
+---------------------
+THTo3: Iteration 1
+#centers(pre/hillclimbed/real): 1 1 1  #al: 155.382 #alsophisticatedcountcollection: 0 #hcsteps: 0
+#peggingImprovements: 0
+A/D table contains 9489 parameters.
+A/D table contains 8400 parameters.
+NTable contains 79170 parameter.
+p0_count is 54811.6 and p1 is 2670.04; p0 is 0.999 p1: 0.001
+THTo3: TRAIN CROSS-ENTROPY 3.08135 PERPLEXITY 8.46408
+THTo3: (1) TRAIN VITERBI CROSS-ENTROPY 3.20873 PERPLEXITY 9.24538
+
+THTo3 Viterbi Iteration : 1 took: 0 seconds
+
+---------------------
+Model3: Iteration 2
+#centers(pre/hillclimbed/real): 1 1 1  #al: 155.4 #alsophisticatedcountcollection: 0 #hcsteps: 1.47231
+#peggingImprovements: 0
+A/D table contains 9489 parameters.
+A/D table contains 8402 parameters.
+NTable contains 79170 parameter.
+p0_count is 57417.2 and p1 is 1367.89; p0 is 0.999 p1: 0.001
+Model3: TRAIN CROSS-ENTROPY 4.47751 PERPLEXITY 22.2773
+Model3: (2) TRAIN VITERBI CROSS-ENTROPY 4.52409 PERPLEXITY 23.0084
+
+Model3 Viterbi Iteration : 2 took: 1 seconds
+
+---------------------
+Model3: Iteration 3
+#centers(pre/hillclimbed/real): 1 1 1  #al: 155.368 #alsophisticatedcountcollection: 0 #hcsteps: 1.47847
+#peggingImprovements: 0
+A/D table contains 9489 parameters.
+A/D table contains 8431 parameters.
+NTable contains 79170 parameter.
+p0_count is 58350.6 and p1 is 901.2; p0 is 0.999 p1: 0.001
+Model3: TRAIN CROSS-ENTROPY 4.34101 PERPLEXITY 20.2663
+Model3: (3) TRAIN VITERBI CROSS-ENTROPY 4.37667 PERPLEXITY 20.7735
+
+Model3 Viterbi Iteration : 3 took: 0 seconds
+
+---------------------
+T3To4: Iteration 4
+#centers(pre/hillclimbed/real): 1 1 1  #al: 155.367 #alsophisticatedcountcollection: 8.17164 #hcsteps: 1.46032
+#peggingImprovements: 0
+D4 table contains 521304 parameters.
+A/D table contains 9489 parameters.
+A/D table contains 8431 parameters.
+NTable contains 79170 parameter.
+p0_count is 58736.9 and p1 is 708.052; p0 is 0.999 p1: 0.001
+T3To4: TRAIN CROSS-ENTROPY 4.2904 PERPLEXITY 19.5676
+T3To4: (4) TRAIN VITERBI CROSS-ENTROPY 4.32142 PERPLEXITY 19.9929
+
+T3To4 Viterbi Iteration : 4 took: 1 seconds
+
+---------------------
+Model4: Iteration 5
+#centers(pre/hillclimbed/real): 1 1 1  #al: 155.303 #alsophisticatedcountcollection: 5.79019 #hcsteps: 1.40211
+#peggingImprovements: 0
+D4 table contains 521304 parameters.
+A/D table contains 9489 parameters.
+A/D table contains 8518 parameters.
+NTable contains 79170 parameter.
+p0_count is 58846.8 and p1 is 653.096; p0 is 0.999 p1: 0.001
+Model4: TRAIN CROSS-ENTROPY 3.83429 PERPLEXITY 14.2639
+Model4: (5) TRAIN VITERBI CROSS-ENTROPY 3.85792 PERPLEXITY 14.4994
+
+Model4 Viterbi Iteration : 5 took: 0 seconds
+
+---------------------
+Model4: Iteration 6
+#centers(pre/hillclimbed/real): 1 1 1  #al: 155.296 #alsophisticatedcountcollection: 5.07367 #hcsteps: 1.38807
+#peggingImprovements: 0
+D4 table contains 521304 parameters.
+A/D table contains 9489 parameters.
+A/D table contains 8518 parameters.
+NTable contains 79170 parameter.
+p0_count is 58964.9 and p1 is 594.043; p0 is 0.999 p1: 0.001
+Model4: TRAIN CROSS-ENTROPY 3.75453 PERPLEXITY 13.4967
+Model4: (6) TRAIN VITERBI CROSS-ENTROPY 3.7749 PERPLEXITY 13.6886
+
+Model4 Viterbi Iteration : 6 took: 2 seconds
+H333444 Training Finished at: Mon Nov 24 09:41:44 2025
+
+
+Entire Viterbi H333444 Training took: 4 seconds
+==========================================================
+
+Entire Training took: 7 seconds
+Program Finished at: Mon Nov 24 09:41:44 2025
+
+==========================================================
+Executing: rm -f /mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/giza.smb-id/smb-id.A3.final.gz
+Executing: pigz /mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/giza.smb-id/smb-id.A3.final
+(2.1a) running snt2cooc id-smb @ Mon Nov 24 09:41:44 WIB 2025
+
+Executing: mkdir -p /mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/giza.id-smb
+/mnt/c/Users/ADVAN/Documents/sm7/NLP/util/mosesdecoder/bin/snt2cooc.out /mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/corpus/smb.vcb /mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/corpus/id.vcb /mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/corpus/id-smb-int-train.snt > /mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/giza.id-smb/id-smb.cooc
+Executing: /mnt/c/Users/ADVAN/Documents/sm7/NLP/util/mosesdecoder/bin/snt2cooc.out /mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/corpus/smb.vcb /mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/corpus/id.vcb /mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/corpus/id-smb-int-train.snt > /mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/giza.id-smb/id-smb.cooc
+line 1000
+line 2000
+line 3000
+line 4000
+line 5000
+line 6000
+END.
+(2.1b) running giza id-smb @ Mon Nov 24 09:41:45 WIB 2025
+/mnt/c/Users/ADVAN/Documents/sm7/NLP/util/mosesdecoder/bin/GIZA++  -CoocurrenceFile /mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/giza.id-smb/id-smb.cooc -c /mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/corpus/id-smb-int-train.snt -m1 5 -m2 0 -m3 3 -m4 3 -model1dumpfrequency 1 -model4smoothfactor 0.4 -nodumps 1 -nsmooth 4 -o /mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/giza.id-smb/id-smb -onlyaldumps 1 -p0 0.999 -s /mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/corpus/smb.vcb -t /mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/corpus/id.vcb
+/mnt/c/Users/ADVAN/Documents/sm7/NLP/util/mosesdecoder/bin/GIZA++  -CoocurrenceFile /mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/giza.id-smb/id-smb.cooc -c /mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/corpus/id-smb-int-train.snt -m1 5 -m2 0 -m3 3 -m4 3 -model1dumpfrequency 1 -model4smoothfactor 0.4 -nodumps 1 -nsmooth 4 -o /mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/giza.id-smb/id-smb -onlyaldumps 1 -p0 0.999 -s /mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/corpus/smb.vcb -t /mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/corpus/id.vcb
+Executing: /mnt/c/Users/ADVAN/Documents/sm7/NLP/util/mosesdecoder/bin/GIZA++  -CoocurrenceFile /mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/giza.id-smb/id-smb.cooc -c /mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/corpus/id-smb-int-train.snt -m1 5 -m2 0 -m3 3 -m4 3 -model1dumpfrequency 1 -model4smoothfactor 0.4 -nodumps 1 -nsmooth 4 -o /mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/giza.id-smb/id-smb -onlyaldumps 1 -p0 0.999 -s /mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/corpus/smb.vcb -t /mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/corpus/id.vcb
+Parameter 'coocurrencefile' changed from '' to '/mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/giza.id-smb/id-smb.cooc'
+Parameter 'c' changed from '' to '/mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/corpus/id-smb-int-train.snt'
+Parameter 'm3' changed from '5' to '3'
+Parameter 'm4' changed from '5' to '3'
+Parameter 'model1dumpfrequency' changed from '0' to '1'
+Parameter 'model4smoothfactor' changed from '0.2' to '0.4'
+Parameter 'nodumps' changed from '0' to '1'
+Parameter 'nsmooth' changed from '64' to '4'
+Parameter 'o' changed from '2025-11-24.094145.leo' to '/mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/giza.id-smb/id-smb'
+Parameter 'onlyaldumps' changed from '0' to '1'
+Parameter 'p0' changed from '-1' to '0.999'
+Parameter 's' changed from '' to '/mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/corpus/smb.vcb'
+Parameter 't' changed from '' to '/mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/corpus/id.vcb'
+general parameters:
+-------------------
+ml = 101  (maximum sentence length)
+
+No. of iterations:
+-------------------
+hmmiterations = 5  (mh)
+model1iterations = 5  (number of iterations for Model 1)
+model2iterations = 0  (number of iterations for Model 2)
+model3iterations = 3  (number of iterations for Model 3)
+model4iterations = 3  (number of iterations for Model 4)
+model5iterations = 0  (number of iterations for Model 5)
+model6iterations = 0  (number of iterations for Model 6)
+
+parameter for various heuristics in GIZA++ for efficient training:
+------------------------------------------------------------------
+countincreasecutoff = 1e-06  (Counts increment cutoff threshold)
+countincreasecutoffal = 1e-05  (Counts increment cutoff threshold for alignments in training of fertility models)
+mincountincrease = 1e-07  (minimal count increase)
+peggedcutoff = 0.03  (relative cutoff probability for alignment-centers in pegging)
+probcutoff = 1e-07  (Probability cutoff threshold for lexicon probabilities)
+probsmooth = 1e-07  (probability smoothing (floor) value )
+
+parameters for describing the type and amount of output:
+-----------------------------------------------------------
+compactalignmentformat = 0  (0: detailled alignment format, 1: compact alignment format )
+hmmdumpfrequency = 0  (dump frequency of HMM)
+l = 2025-11-24.094145.leo.log  (log file name)
+log = 0  (0: no logfile; 1: logfile)
+model1dumpfrequency = 1  (dump frequency of Model 1)
+model2dumpfrequency = 0  (dump frequency of Model 2)
+model345dumpfrequency = 0  (dump frequency of Model 3/4/5)
+nbestalignments = 0  (for printing the n best alignments)
+nodumps = 1  (1: do not write any files)
+o = /mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/giza.id-smb/id-smb  (output file prefix)
+onlyaldumps = 1  (1: do not write any files)
+outputpath =   (output path)
+transferdumpfrequency = 0  (output: dump of transfer from Model 2 to 3)
+verbose = 0  (0: not verbose; 1: verbose)
+verbosesentence = -10  (number of sentence for which a lot of information should be printed (negative: no output))
+
+parameters describing input files:
+----------------------------------
+c = /mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/corpus/id-smb-int-train.snt  (training corpus file name)
+d =   (dictionary file name)
+s = /mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/corpus/smb.vcb  (source vocabulary file name)
+t = /mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/corpus/id.vcb  (target vocabulary file name)
+tc =   (test corpus file name)
+
+smoothing parameters:
+---------------------
+emalsmooth = 0.2  (f-b-trn: smoothing factor for HMM alignment model (can be ignored by -emSmoothHMM))
+model23smoothfactor = 0  (smoothing parameter for IBM-2/3 (interpolation with constant))
+model4smoothfactor = 0.4  (smooting parameter for alignment probabilities in Model 4)
+model5smoothfactor = 0.1  (smooting parameter for distortion probabilities in Model 5 (linear interpolation with constant))
+nsmooth = 4  (smoothing for fertility parameters (good value: 64): weight for wordlength-dependent fertility parameters)
+nsmoothgeneral = 0  (smoothing for fertility parameters (default: 0): weight for word-independent fertility parameters)
+
+parameters modifying the models:
+--------------------------------
+compactadtable = 1  (1: only 3-dimensional alignment table for IBM-2 and IBM-3)
+deficientdistortionforemptyword = 0  (0: IBM-3/IBM-4 as described in (Brown et al. 1993); 1: distortion model of empty word is deficient; 2: distoriton model of empty word is deficient (differently); setting this parameter also helps to avoid that during IBM-3 and IBM-4 training too many words are aligned with the empty word)
+depm4 = 76  (d_{=1}: &1:l, &2:m, &4:F, &8:E, d_{>1}&16:l, &32:m, &64:F, &128:E)
+depm5 = 68  (d_{=1}: &1:l, &2:m, &4:F, &8:E, d_{>1}&16:l, &32:m, &64:F, &128:E)
+emalignmentdependencies = 2  (lextrain: dependencies in the HMM alignment model.  &1: sentence length; &2: previous class; &4: previous position;  &8: French position; &16: French class)
+emprobforempty = 0.4  (f-b-trn: probability for empty word)
+
+parameters modifying the EM-algorithm:
+--------------------------------------
+m5p0 = -1  (fixed value for parameter p_0 in IBM-5 (if negative then it is determined in training))
+manlexfactor1 = 0  ()
+manlexfactor2 = 0  ()
+manlexmaxmultiplicity = 20  ()
+maxfertility = 10  (maximal fertility for fertility models)
+p0 = 0.999  (fixed value for parameter p_0 in IBM-3/4 (if negative then it is determined in training))
+pegging = 0  (0: no pegging; 1: do pegging)
+
+general parameters:
+-------------------
+ml = 101  (maximum sentence length)
+
+No. of iterations:
+-------------------
+hmmiterations = 5  (mh)
+model1iterations = 5  (number of iterations for Model 1)
+model2iterations = 0  (number of iterations for Model 2)
+model3iterations = 3  (number of iterations for Model 3)
+model4iterations = 3  (number of iterations for Model 4)
+model5iterations = 0  (number of iterations for Model 5)
+model6iterations = 0  (number of iterations for Model 6)
+
+parameter for various heuristics in GIZA++ for efficient training:
+------------------------------------------------------------------
+countincreasecutoff = 1e-06  (Counts increment cutoff threshold)
+countincreasecutoffal = 1e-05  (Counts increment cutoff threshold for alignments in training of fertility models)
+mincountincrease = 1e-07  (minimal count increase)
+peggedcutoff = 0.03  (relative cutoff probability for alignment-centers in pegging)
+probcutoff = 1e-07  (Probability cutoff threshold for lexicon probabilities)
+probsmooth = 1e-07  (probability smoothing (floor) value )
+
+parameters for describing the type and amount of output:
+-----------------------------------------------------------
+compactalignmentformat = 0  (0: detailled alignment format, 1: compact alignment format )
+hmmdumpfrequency = 0  (dump frequency of HMM)
+l = 2025-11-24.094145.leo.log  (log file name)
+log = 0  (0: no logfile; 1: logfile)
+model1dumpfrequency = 1  (dump frequency of Model 1)
+model2dumpfrequency = 0  (dump frequency of Model 2)
+model345dumpfrequency = 0  (dump frequency of Model 3/4/5)
+nbestalignments = 0  (for printing the n best alignments)
+nodumps = 1  (1: do not write any files)
+o = /mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/giza.id-smb/id-smb  (output file prefix)
+onlyaldumps = 1  (1: do not write any files)
+outputpath =   (output path)
+transferdumpfrequency = 0  (output: dump of transfer from Model 2 to 3)
+verbose = 0  (0: not verbose; 1: verbose)
+verbosesentence = -10  (number of sentence for which a lot of information should be printed (negative: no output))
+
+parameters describing input files:
+----------------------------------
+c = /mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/corpus/id-smb-int-train.snt  (training corpus file name)
+d =   (dictionary file name)
+s = /mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/corpus/smb.vcb  (source vocabulary file name)
+t = /mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/corpus/id.vcb  (target vocabulary file name)
+tc =   (test corpus file name)
+
+smoothing parameters:
+---------------------
+emalsmooth = 0.2  (f-b-trn: smoothing factor for HMM alignment model (can be ignored by -emSmoothHMM))
+model23smoothfactor = 0  (smoothing parameter for IBM-2/3 (interpolation with constant))
+model4smoothfactor = 0.4  (smooting parameter for alignment probabilities in Model 4)
+model5smoothfactor = 0.1  (smooting parameter for distortion probabilities in Model 5 (linear interpolation with constant))
+nsmooth = 4  (smoothing for fertility parameters (good value: 64): weight for wordlength-dependent fertility parameters)
+nsmoothgeneral = 0  (smoothing for fertility parameters (default: 0): weight for word-independent fertility parameters)
+
+parameters modifying the models:
+--------------------------------
+compactadtable = 1  (1: only 3-dimensional alignment table for IBM-2 and IBM-3)
+deficientdistortionforemptyword = 0  (0: IBM-3/IBM-4 as described in (Brown et al. 1993); 1: distortion model of empty word is deficient; 2: distoriton model of empty word is deficient (differently); setting this parameter also helps to avoid that during IBM-3 and IBM-4 training too many words are aligned with the empty word)
+depm4 = 76  (d_{=1}: &1:l, &2:m, &4:F, &8:E, d_{>1}&16:l, &32:m, &64:F, &128:E)
+depm5 = 68  (d_{=1}: &1:l, &2:m, &4:F, &8:E, d_{>1}&16:l, &32:m, &64:F, &128:E)
+emalignmentdependencies = 2  (lextrain: dependencies in the HMM alignment model.  &1: sentence length; &2: previous class; &4: previous position;  &8: French position; &16: French class)
+emprobforempty = 0.4  (f-b-trn: probability for empty word)
+
+parameters modifying the EM-algorithm:
+--------------------------------------
+m5p0 = -1  (fixed value for parameter p_0 in IBM-5 (if negative then it is determined in training))
+manlexfactor1 = 0  ()
+manlexfactor2 = 0  ()
+manlexmaxmultiplicity = 20  ()
+maxfertility = 10  (maximal fertility for fertility models)
+p0 = 0.999  (fixed value for parameter p_0 in IBM-3/4 (if negative then it is determined in training))
+pegging = 0  (0: no pegging; 1: do pegging)
+
+reading vocabulary files
+Reading vocabulary file from:/mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/corpus/smb.vcb
+Reading vocabulary file from:/mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/corpus/id.vcb
+Source vocabulary list has 10423 unique tokens
+Target vocabulary list has 7917 unique tokens
+Calculating vocabulary frequencies from corpus /mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/corpus/id-smb-int-train.snt
+Reading more sentence pairs into memory ...
+Corpus fits in memory, corpus has: 6339 sentence pairs.
+ Train total # sentence pairs (weighted): 6339
+Size of source portion of the training corpus: 60210 tokens
+Size of the target portion of the training corpus: 60321 tokens
+In source portion of the training corpus, only 10422 unique tokens appeared
+In target portion of the training corpus, only 7915 unique tokens appeared
+lambda for PP calculation in IBM-1,IBM-2,HMM:= 60321/(66549-6339)== 1.00184
+There are 382690 382690 entries in table
+==========================================================
+Model1 Training Started at: Mon Nov 24 09:41:45 2025
+
+-----------
+Model1: Iteration 1
+Model1: (1) TRAIN CROSS-ENTROPY 13.3451 PERPLEXITY 10406
+Model1: (1) VITERBI TRAIN CROSS-ENTROPY 16.8434 PERPLEXITY 117587
+Model 1 Iteration: 1 took: 0 seconds
+-----------
+Model1: Iteration 2
+Model1: (2) TRAIN CROSS-ENTROPY 5.88701 PERPLEXITY 59.179
+Model1: (2) VITERBI TRAIN CROSS-ENTROPY 7.51949 PERPLEXITY 183.482
+Model 1 Iteration: 2 took: 1 seconds
+-----------
+Model1: Iteration 3
+Model1: (3) TRAIN CROSS-ENTROPY 5.20048 PERPLEXITY 36.7707
+Model1: (3) VITERBI TRAIN CROSS-ENTROPY 6.30555 PERPLEXITY 79.0971
+Model 1 Iteration: 3 took: 0 seconds
+-----------
+Model1: Iteration 4
+Model1: (4) TRAIN CROSS-ENTROPY 4.90246 PERPLEXITY 29.9081
+Model1: (4) VITERBI TRAIN CROSS-ENTROPY 5.76197 PERPLEXITY 54.2658
+Model 1 Iteration: 4 took: 0 seconds
+-----------
+Model1: Iteration 5
+Model1: (5) TRAIN CROSS-ENTROPY 4.79509 PERPLEXITY 27.763
+Model1: (5) VITERBI TRAIN CROSS-ENTROPY 5.5373 PERPLEXITY 46.44
+Model 1 Iteration: 5 took: 0 seconds
+Entire Model1 Training took: 1 seconds
+NOTE: I am doing iterations with the HMM model!
+Read classes: #words: 10422  #classes: 51
+Read classes: #words: 7916  #classes: 51
+
+==========================================================
+Hmm Training Started at: Mon Nov 24 09:41:46 2025
+
+-----------
+Hmm: Iteration 1
+A/D table contains 8839 parameters.
+Hmm: (1) TRAIN CROSS-ENTROPY 4.75006 PERPLEXITY 26.9098
+Hmm: (1) VITERBI TRAIN CROSS-ENTROPY 5.42738 PERPLEXITY 43.0334
+
+Hmm Iteration: 1 took: 0 seconds
+
+-----------
+Hmm: Iteration 2
+A/D table contains 8839 parameters.
+Hmm: (2) TRAIN CROSS-ENTROPY 3.79981 PERPLEXITY 13.9269
+Hmm: (2) VITERBI TRAIN CROSS-ENTROPY 4.04907 PERPLEXITY 16.5535
+
+Hmm Iteration: 2 took: 1 seconds
+
+-----------
+Hmm: Iteration 3
+A/D table contains 8839 parameters.
+Hmm: (3) TRAIN CROSS-ENTROPY 3.27502 PERPLEXITY 9.68007
+Hmm: (3) VITERBI TRAIN CROSS-ENTROPY 3.42134 PERPLEXITY 10.7134
+
+Hmm Iteration: 3 took: 0 seconds
+
+-----------
+Hmm: Iteration 4
+A/D table contains 8839 parameters.
+Hmm: (4) TRAIN CROSS-ENTROPY 3.07453 PERPLEXITY 8.42414
+Hmm: (4) VITERBI TRAIN CROSS-ENTROPY 3.18193 PERPLEXITY 9.07519
+
+Hmm Iteration: 4 took: 0 seconds
+
+-----------
+Hmm: Iteration 5
+A/D table contains 8839 parameters.
+Hmm: (5) TRAIN CROSS-ENTROPY 2.97762 PERPLEXITY 7.87688
+Hmm: (5) VITERBI TRAIN CROSS-ENTROPY 3.06398 PERPLEXITY 8.36278
+
+Hmm Iteration: 5 took: 1 seconds
+
+Entire Hmm Training took: 2 seconds
+==========================================================
+Read classes: #words: 10422  #classes: 51
+Read classes: #words: 7916  #classes: 51
+Read classes: #words: 10422  #classes: 51
+Read classes: #words: 7916  #classes: 51
+
+==========================================================
+Starting H333444:  Viterbi Training
+ H333444 Training Started at: Mon Nov 24 09:41:48 2025
+
+
+---------------------
+THTo3: Iteration 1
+#centers(pre/hillclimbed/real): 1 1 1  #al: 155.037 #alsophisticatedcountcollection: 0 #hcsteps: 0
+#peggingImprovements: 0
+A/D table contains 8839 parameters.
+A/D table contains 9011 parameters.
+NTable contains 104230 parameter.
+p0_count is 56898.1 and p1 is 1711.09; p0 is 0.999 p1: 0.001
+THTo3: TRAIN CROSS-ENTROPY 2.64455 PERPLEXITY 6.25299
+THTo3: (1) TRAIN VITERBI CROSS-ENTROPY 2.74649 PERPLEXITY 6.71085
+
+THTo3 Viterbi Iteration : 1 took: 0 seconds
+
+---------------------
+Model3: Iteration 2
+#centers(pre/hillclimbed/real): 1 1 1  #al: 154.996 #alsophisticatedcountcollection: 0 #hcsteps: 1.35842
+#peggingImprovements: 0
+A/D table contains 8839 parameters.
+A/D table contains 9011 parameters.
+NTable contains 104230 parameter.
+p0_count is 58214 and p1 is 1053.5; p0 is 0.999 p1: 0.001
+Model3: TRAIN CROSS-ENTROPY 4.00911 PERPLEXITY 16.1014
+Model3: (2) TRAIN VITERBI CROSS-ENTROPY 4.05234 PERPLEXITY 16.5912
+
+Model3 Viterbi Iteration : 2 took: 0 seconds
+
+---------------------
+Model3: Iteration 3
+#centers(pre/hillclimbed/real): 1 1 1  #al: 155.036 #alsophisticatedcountcollection: 0 #hcsteps: 1.36362
+#peggingImprovements: 0
+A/D table contains 8839 parameters.
+A/D table contains 9011 parameters.
+NTable contains 104230 parameter.
+p0_count is 58548.4 and p1 is 886.298; p0 is 0.999 p1: 0.001
+Model3: TRAIN CROSS-ENTROPY 3.90494 PERPLEXITY 14.9797
+Model3: (3) TRAIN VITERBI CROSS-ENTROPY 3.9386 PERPLEXITY 15.3333
+
+Model3 Viterbi Iteration : 3 took: 1 seconds
+
+---------------------
+T3To4: Iteration 4
+#centers(pre/hillclimbed/real): 1 1 1  #al: 155.038 #alsophisticatedcountcollection: 8.18725 #hcsteps: 1.35952
+#peggingImprovements: 0
+D4 table contains 515417 parameters.
+A/D table contains 8839 parameters.
+A/D table contains 9011 parameters.
+NTable contains 104230 parameter.
+p0_count is 58760.7 and p1 is 780.165; p0 is 0.999 p1: 0.001
+T3To4: TRAIN CROSS-ENTROPY 3.8617 PERPLEXITY 14.5374
+T3To4: (4) TRAIN VITERBI CROSS-ENTROPY 3.89053 PERPLEXITY 14.8309
+
+T3To4 Viterbi Iteration : 4 took: 0 seconds
+
+---------------------
+Model4: Iteration 5
+#centers(pre/hillclimbed/real): 1 1 1  #al: 155.011 #alsophisticatedcountcollection: 5.54031 #hcsteps: 1.28411
+#peggingImprovements: 0
+D4 table contains 515417 parameters.
+A/D table contains 8839 parameters.
+A/D table contains 9145 parameters.
+NTable contains 104230 parameter.
+p0_count is 58819.2 and p1 is 750.925; p0 is 0.999 p1: 0.001
+Model4: TRAIN CROSS-ENTROPY 3.35435 PERPLEXITY 10.2273
+Model4: (5) TRAIN VITERBI CROSS-ENTROPY 3.37344 PERPLEXITY 10.3635
+
+Model4 Viterbi Iteration : 5 took: 1 seconds
+
+---------------------
+Model4: Iteration 6
+#centers(pre/hillclimbed/real): 1 1 1  #al: 154.982 #alsophisticatedcountcollection: 4.84619 #hcsteps: 1.27244
+#peggingImprovements: 0
+D4 table contains 515417 parameters.
+A/D table contains 8839 parameters.
+A/D table contains 9145 parameters.
+NTable contains 104230 parameter.
+p0_count is 58927.1 and p1 is 696.968; p0 is 0.999 p1: 0.001
+Model4: TRAIN CROSS-ENTROPY 3.27646 PERPLEXITY 9.68974
+Model4: (6) TRAIN VITERBI CROSS-ENTROPY 3.29181 PERPLEXITY 9.79338
+
+Model4 Viterbi Iteration : 6 took: 1 seconds
+H333444 Training Finished at: Mon Nov 24 09:41:51 2025
+
+
+Entire Viterbi H333444 Training took: 3 seconds
+==========================================================
+
+Entire Training took: 6 seconds
+Program Finished at: Mon Nov 24 09:41:51 2025
+
+==========================================================
+Executing: rm -f /mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/giza.id-smb/id-smb.A3.final.gz
+Executing: pigz /mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/giza.id-smb/id-smb.A3.final
+(3) generate word alignment @ Mon Nov 24 09:41:51 WIB 2025
+Combining forward and inverted alignment from files:
+  /mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/giza.smb-id/smb-id.A3.final.{bz2,gz}
+  /mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/giza.id-smb/id-smb.A3.final.{bz2,gz}
+Executing: mkdir -p /mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/model
+Executing: /mnt/c/Users/ADVAN/Documents/sm7/NLP/util/mosesdecoder/scripts/training/giza2bal.pl -d "pigz -cd /mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/giza.id-smb/id-smb.A3.final.gz" -i "pigz -cd /mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/giza.smb-id/smb-id.A3.final.gz" |/mnt/c/Users/ADVAN/Documents/sm7/NLP/util/mosesdecoder/scripts/../bin/symal -alignment="grow" -diagonal="yes" -final="yes" -both="no" > /mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/model/aligned.grow-diag-final
+symal: computing grow alignment: diagonal (1) final (1)both-uncovered (0)
+Sentence mismatch error! Line #5030
+Sentence mismatch error! Line #5159
+Sentence mismatch error! Line #5366
+skip=<0> counts=<6339>
+(4) generate lexical translation table 0-0 @ Mon Nov 24 09:41:53 WIB 2025
+(/mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/corpus/tokenized.smb,/mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/corpus/tokenized.id,/mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/model/lex)
+FILE: /mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/corpus/tokenized.id
+FILE: /mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/corpus/tokenized.smb
+FILE: /mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/model/aligned.grow-diag-final
+!!!!!!!
+Saved: /mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/model/lex.f2e and /mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/model/lex.e2f
+(5) extract phrases @ Mon Nov 24 09:41:54 WIB 2025
+MAX 7 0 0
+/mnt/c/Users/ADVAN/Documents/sm7/NLP/util/mosesdecoder/scripts/generic/extract-parallel.perl 8 split "sort    " /mnt/c/Users/ADVAN/Documents/sm7/NLP/util/mosesdecoder/scripts/../bin/extract /mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/corpus/tokenized.id /mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/corpus/tokenized.smb /mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/model/aligned.grow-diag-final /mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/model/extract 7 --GZOutput
+Executing: /mnt/c/Users/ADVAN/Documents/sm7/NLP/util/mosesdecoder/scripts/generic/extract-parallel.perl 8 split "sort    " /mnt/c/Users/ADVAN/Documents/sm7/NLP/util/mosesdecoder/scripts/../bin/extract /mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/corpus/tokenized.id /mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/corpus/tokenized.smb /mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/model/aligned.grow-diag-final /mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/model/extract 7 --GZOutput
+Started Mon Nov 24 09:41:54 2025
+using pigz
+isBSDSplit=0
+Executing: mkdir -p /mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/model/tmp.3206; ls -l /mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/model/tmp.3206
+total=6339 line-per-split=793
+split -d -l 793 -a 7 /mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/corpus/tokenized.id /mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/model/tmp.3206/target.split -d -l 793 -a 7 /mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/corpus/tokenized.smb /mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/model/tmp.3206/source.split -d -l 793 -a 7 /mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/model/aligned.grow-diag-final /mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/model/tmp.3206/align.PhraseExtract v1.5, written by Philipp Koehn et al.
+phrase extraction from an aligned parallel corpus
+PhraseExtract v1.5, written by Philipp Koehn et al.PhraseExtract v1.5, written by Philipp Koehn et al.PhraseExtract v1.5, written by Philipp Koehn et al.PhraseExtract v1.5, written by Philipp Koehn et al.PhraseExtract v1.5, written by Philipp Koehn et al.
+
+PhraseExtract v1.5, written by Philipp Koehn et al.PhraseExtract v1.5, written by Philipp Koehn et al.
+phrase extraction from an aligned parallel corpus
+phrase extraction from an aligned parallel corpus
+
+phrase extraction from an aligned parallel corpusphrase extraction from an aligned parallel corpus
+
+phrase extraction from an aligned parallel corpus
+
+phrase extraction from an aligned parallel corpus
+
+phrase extraction from an aligned parallel corpus
+
+merging extract / extract.inv
+gunzip -c /mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/model/tmp.3206/extract.0000000.gz /mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/model/tmp.3206/extract.0000001.gz /mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/model/tmp.3206/extract.0000002.gz /mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/model/tmp.3206/extract.0000003.gz /mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/model/tmp.3206/extract.0000004.gz /mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/model/tmp.3206/extract.0000005.gz /mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/model/tmp.3206/extract.0000006.gz /mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/model/tmp.3206/extract.0000007.gz  | LC_ALL=C sort     -T /mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/model/tmp.3206 2>> /dev/stderr | pigz -c > /mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/model/extract.sorted.gz 2>> /dev/stderr
+gunzip -c /mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/model/tmp.3206/extract.0000000.inv.gz /mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/model/tmp.3206/extract.0000001.inv.gz /mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/model/tmp.3206/extract.0000002.inv.gz /mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/model/tmp.3206/extract.0000003.inv.gz /mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/model/tmp.3206/extract.0000004.inv.gz /mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/model/tmp.3206/extract.0000005.inv.gz /mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/model/tmp.3206/extract.0000006.inv.gz /mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/model/tmp.3206/extract.0000007.inv.gz  | LC_ALL=C sort     -T /mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/model/tmp.3206 2>> /dev/stderr | pigz -c > /mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/model/extract.inv.sorted.gz 2>> /dev/stderr
+Finished Mon Nov 24 09:41:58 2025
+(6) score phrases @ Mon Nov 24 09:41:58 WIB 2025
+(6.1)  creating table half /mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/model/phrase-table.half.f2e @ Mon Nov 24 09:41:58 WIB 2025
+/mnt/c/Users/ADVAN/Documents/sm7/NLP/util/mosesdecoder/scripts/generic/score-parallel.perl 8 "sort    " /mnt/c/Users/ADVAN/Documents/sm7/NLP/util/mosesdecoder/scripts/../bin/score /mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/model/extract.sorted.gz /mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/model/lex.f2e /mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/model/phrase-table.half.f2e.gz  0
+Executing: /mnt/c/Users/ADVAN/Documents/sm7/NLP/util/mosesdecoder/scripts/generic/score-parallel.perl 8 "sort    " /mnt/c/Users/ADVAN/Documents/sm7/NLP/util/mosesdecoder/scripts/../bin/score /mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/model/extract.sorted.gz /mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/model/lex.f2e /mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/model/phrase-table.half.f2e.gz  0
+using pigz
+Started Mon Nov 24 09:41:58 2025
+/mnt/c/Users/ADVAN/Documents/sm7/NLP/util/mosesdecoder/scripts/../bin/score /mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/model/tmp.3280/extract.0.gz /mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/model/lex.f2e /mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/model/tmp.3280/phrase-table.half.0000000.gz  2>> /dev/stderr
+/mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/model/tmp.3280/run.0.sh/mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/model/tmp.3280/run.1.sh/mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/model/tmp.3280/run.2.sh/mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/model/tmp.3280/run.3.sh/mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/model/tmp.3280/run.4.sh/mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/model/tmp.3280/run.5.sh/mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/model/tmp.3280/run.6.sh/mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/model/tmp.3280/run.7.shScore v2.1 -- scoring methods for extracted rules
+Loading lexical translation table from /mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/model/lex.f2e
+.
+mv /mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/model/tmp.3280/phrase-table.half.0000000.gz /mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/model/phrase-table.half.f2e.gzrm -rf /mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/model/tmp.3280
+Finished Mon Nov 24 09:42:00 2025
+(6.3)  creating table half /mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/model/phrase-table.half.e2f @ Mon Nov 24 09:42:00 WIB 2025
+/mnt/c/Users/ADVAN/Documents/sm7/NLP/util/mosesdecoder/scripts/generic/score-parallel.perl 8 "sort    " /mnt/c/Users/ADVAN/Documents/sm7/NLP/util/mosesdecoder/scripts/../bin/score /mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/model/extract.inv.sorted.gz /mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/model/lex.e2f /mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/model/phrase-table.half.e2f.gz --Inverse 1
+Executing: /mnt/c/Users/ADVAN/Documents/sm7/NLP/util/mosesdecoder/scripts/generic/score-parallel.perl 8 "sort    " /mnt/c/Users/ADVAN/Documents/sm7/NLP/util/mosesdecoder/scripts/../bin/score /mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/model/extract.inv.sorted.gz /mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/model/lex.e2f /mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/model/phrase-table.half.e2f.gz --Inverse 1
+using pigz
+Started Mon Nov 24 09:42:00 2025
+/mnt/c/Users/ADVAN/Documents/sm7/NLP/util/mosesdecoder/scripts/../bin/score /mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/model/tmp.3324/extract.0.gz /mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/model/lex.e2f /mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/model/tmp.3324/phrase-table.half.0000000.gz --Inverse  2>> /dev/stderr
+/mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/model/tmp.3324/run.0.sh/mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/model/tmp.3324/run.1.sh/mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/model/tmp.3324/run.2.sh/mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/model/tmp.3324/run.3.sh/mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/model/tmp.3324/run.4.sh/mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/model/tmp.3324/run.5.sh/mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/model/tmp.3324/run.6.sh/mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/model/tmp.3324/run.7.shScore v2.1 -- scoring methods for extracted rules
+using inverse mode
+Loading lexical translation table from /mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/model/lex.e2f
+.
+gunzip -c /mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/model/tmp.3324/phrase-table.half.*.gz 2>> /dev/stderr| LC_ALL=C sort     -T /mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/model/tmp.3324  | pigz -c > /mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/model/phrase-table.half.e2f.gz  2>> /dev/stderr rm -rf /mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/model/tmp.3324
+Finished Mon Nov 24 09:42:05 2025
+(6.6) consolidating the two halves @ Mon Nov 24 09:42:05 WIB 2025
+Executing: /mnt/c/Users/ADVAN/Documents/sm7/NLP/util/mosesdecoder/scripts/../bin/consolidate /mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/model/phrase-table.half.f2e.gz /mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/model/phrase-table.half.e2f.gz /dev/stdout | pigz -c > /mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/model/phrase-table.gz
+Consolidate v2.0 written by Philipp Koehn
+consolidating direct and indirect rule tables
+.
+Executing: rm -f /mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/model/phrase-table.half.*
+(7) learn reordering model @ Mon Nov 24 09:42:07 WIB 2025
+  ... skipping this step, reordering is not lexicalized ...
+(8) learn generation model @ Mon Nov 24 09:42:07 WIB 2025
+  no generation model requested, skipping step
+(9) create moses.ini @ Mon Nov 24 09:42:07 WIB 2025
+
+
+
+
+(base) leo@Leo:.../NLP/smt
+$ $pathmoses/bin/moses -f model/moses.ini
+Defined parameters (per moses.ini or switch):
+        config: model/moses.ini
+        distortion-limit: 6
+        feature: UnknownWordPenalty WordPenalty PhrasePenalty PhraseDictionaryMemory name=TranslationModel0 num-features=4 path=/mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/model/phrase-table.gz input-factor=0 output-factor=0 Distortion KENLM name=LM0 factor=0 path=/mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/lm/id.lm order=3
+        input-factors: 0
+        mapping: 0 T 0
+        weight: UnknownWordPenalty0= 1 WordPenalty0= -1 PhrasePenalty0= 0.2 TranslationModel0= 0.2 0.2 0.2 0.2 Distortion0= 0.3 LM0= 0.5
+line=UnknownWordPenalty
+FeatureFunction: UnknownWordPenalty0 start: 0 end: 0
+line=WordPenalty
+FeatureFunction: WordPenalty0 start: 1 end: 1
+line=PhrasePenalty
+FeatureFunction: PhrasePenalty0 start: 2 end: 2
+line=PhraseDictionaryMemory name=TranslationModel0 num-features=4 path=/mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/model/phrase-table.gz input-factor=0 output-factor=0
+FeatureFunction: TranslationModel0 start: 3 end: 6
+line=Distortion
+FeatureFunction: Distortion0 start: 7 end: 7
+line=KENLM name=LM0 factor=0 path=/mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/lm/id.lm order=3
+Loading the LM will be faster if you build a binary file.
+Reading /mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/lm/id.lm
+----5---10---15---20---25---30---35---40---45---50---55---60---65---70---75---80---85---90---95--100
+****************************************************************************************************
+FeatureFunction: LM0 start: 8 end: 8
+Loading UnknownWordPenalty0
+Loading WordPenalty0
+Loading PhrasePenalty0
+Loading Distortion0
+Loading LM0
+Loading TranslationModel0
+Start loading text phrase table. Moses format : [0.112] seconds
+Reading /mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/model/phrase-table.gz
+----5---10---15---20---25---30---35---40---45---50---55---60---65---70---75---80---85---90---95--100
+****************************************************************************************************
+Created input-output object : [1.255] seconds
+
+
+
+(base) leo@Leo:.../NLP/smt
+$ $pathmoses/bin/moses -f model/moses.ini < intest.txt > out.txt
+Defined parameters (per moses.ini or switch):
+        config: model/moses.ini
+        distortion-limit: 6
+        feature: UnknownWordPenalty WordPenalty PhrasePenalty PhraseDictionaryMemory name=TranslationModel0 num-features=4 path=/mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/model/phrase-table.gz input-factor=0 output-factor=0 Distortion KENLM name=LM0 factor=0 path=/mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/lm/id.lm order=3
+        input-factors: 0
+        mapping: 0 T 0
+        weight: UnknownWordPenalty0= 1 WordPenalty0= -1 PhrasePenalty0= 0.2 TranslationModel0= 0.2 0.2 0.2 0.2 Distortion0= 0.3 LM0= 0.5
+line=UnknownWordPenalty
+FeatureFunction: UnknownWordPenalty0 start: 0 end: 0
+line=WordPenalty
+FeatureFunction: WordPenalty0 start: 1 end: 1
+line=PhrasePenalty
+FeatureFunction: PhrasePenalty0 start: 2 end: 2
+line=PhraseDictionaryMemory name=TranslationModel0 num-features=4 path=/mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/model/phrase-table.gz input-factor=0 output-factor=0
+FeatureFunction: TranslationModel0 start: 3 end: 6
+line=Distortion
+FeatureFunction: Distortion0 start: 7 end: 7
+line=KENLM name=LM0 factor=0 path=/mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/lm/id.lm order=3
+Loading the LM will be faster if you build a binary file.
+Reading /mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/lm/id.lm
+----5---10---15---20---25---30---35---40---45---50---55---60---65---70---75---80---85---90---95--100
+****************************************************************************************************
+FeatureFunction: LM0 start: 8 end: 8
+Loading UnknownWordPenalty0
+Loading WordPenalty0
+Loading PhrasePenalty0
+Loading Distortion0
+Loading LM0
+Loading TranslationModel0
+Start loading text phrase table. Moses format : [0.117] seconds
+Reading /mnt/c/Users/ADVAN/Documents/sm7/NLP/smt/model/phrase-table.gz
+----5---10---15---20---25---30---35---40---45---50---55---60---65---70---75---80---85---90---95--100
+****************************************************************************************************
+Created input-output object : [1.214] seconds
+Translating: melayu _ sambas
+Line 0: Initialize search took 0.001 seconds total
+Line 0: Collecting options took 0.001 seconds at moses/Manager.cpp Line 141
+Line 0: Search took 0.000 seconds
+BEST TRANSLATION: indonesia [111]  [total=-6.578] core=(0.000,-1.000,1.000,-2.944,-11.675,0.000,-0.325,0.000,-9.579)
+Line 0: Decision rule took 0.007 seconds total
+Line 0: Additional reporting took 0.007 seconds total
+Line 0: Translation took 0.010 seconds total
+Translating: kalimat-kalimat iye adelah sebogoi berikot
+Line 1: Initialize search took 0.000 seconds total
+Line 1: Collecting options took 0.000 seconds at moses/Manager.cpp Line 141
+Line 1: Search took 0.001 seconds
+BEST TRANSLATION: kalimat-kalimat tersebut adalah sebagai berikut [11111]  [total=-7.124] core=(0.000,-5.000,4.000,-1.711,-3.847,0.000,-3.246,0.000,-22.327)
+Line 1: Decision rule took 0.000 seconds total
+Line 1: Additional reporting took 0.001 seconds total
+Line 1: Translation took 0.002 seconds total
+Translating: manusie perlu makan dan aek agor jodi kuat dan sehat , giyepun tanaman
+Line 2: Initialize search took 0.000 seconds total
+Line 2: Collecting options took 0.000 seconds at moses/Manager.cpp Line 141
+Line 2: Search took 0.035 seconds
+BEST TRANSLATION: manusia membutuhkan makanan dan air supaya menjadi kuat dan sehat , begitu juga tanaman [1111111111111]  [total=-27.693] core=(0.000,-14.000,9.000,-1.141,-20.885,-0.253,-10.304,0.000,-73.953)
+Line 2: Decision rule took 0.001 seconds total
+Line 2: Additional reporting took 0.002 seconds total
+Line 2: Translation took 0.037 seconds total
+Translating: tanaman ijau ngunekan aek untok buot makanannye
+Line 3: Initialize search took 0.000 seconds total
+Line 3: Collecting options took 0.000 seconds at moses/Manager.cpp Line 141
+Line 3: Search took 0.003 seconds
+BEST TRANSLATION: tanaman hijau menggunakan air untuk membuat makanannya [1111111]  [total=-13.607] core=(0.000,-7.000,5.000,-0.660,-9.608,-0.169,-4.605,0.000,-37.198)
+Line 3: Decision rule took 0.001 seconds total
+Line 3: Additional reporting took 0.001 seconds total
+Line 3: Translation took 0.005 seconds total
+Translating: tanaman yang daan dopat aek akan layok dan jodi karing
+Line 4: Initialize search took 0.000 seconds total
+Line 4: Collecting options took 0.000 seconds at moses/Manager.cpp Line 141
+Line 4: Search took 0.013 seconds
+BEST TRANSLATION: tanaman yang tidak mendapat air akan layu dan menjadi kering [1111111111]  [total=-20.759] core=(0.000,-10.000,7.000,-0.930,-14.538,-0.071,-7.985,0.000,-54.909)
+Line 4: Decision rule took 0.001 seconds total
+Line 4: Additional reporting took 0.001 seconds total
+Line 4: Translation took 0.015 seconds total
+Translating: keberhaselan belojor murid daan hanye tergantung pada jumlah dan mutu guru yang memadai
+Line 5: Initialize search took 0.000 seconds total
+Line 5: Collecting options took 0.000 seconds at moses/Manager.cpp Line 141
+Line 5: Search took 0.008 seconds
+BEST TRANSLATION: keberhasilan belajar murid tidak hanya bergantung pada jumlah dan mutu guru yang memadai [1111111111111]  [total=-15.446] core=(0.000,-13.000,10.000,-1.952,-9.255,-0.393,-3.514,0.000,-54.846)
+Line 5: Decision rule took 0.001 seconds total
+Line 5: Additional reporting took 0.001 seconds total
+Line 5: Translation took 0.009 seconds total
+Translating: namun , di sekolah yang jumloh dan mutu gurunye kurang , diduga potensi belojor murid akan sulit mencapai hasel maksimal
+Line 6: Initialize search took 0.000 seconds total
+Line 6: Collecting options took 0.000 seconds at moses/Manager.cpp Line 141
+Line 6: Search took 0.030 seconds
+BEST TRANSLATION: namun , di sekolah yang jumlah dan mutu gurunya kurang , diduga potensi belajar murid akan sulit mencapai hasil maksimal [11111111111111111111]  [total=-22.660] core=(0.000,-20.000,17.000,-1.883,-11.844,-0.459,-6.091,0.000,-84.009)
+Line 6: Decision rule took 0.000 seconds total
+Line 6: Additional reporting took 0.000 seconds total
+Line 6: Translation took 0.032 seconds total
+Translating: tabel limak titik duok melaitkan hubongan antare hasel tes murid dongan tingkat keabsenan guru
+Line 7: Initialize search took 0.002 seconds total
+---
+Translating: bppsdmp kementan gelar gerakan pemberdayaan petani terpadu
+Line 6301: Initialize search took 0.000 seconds total
+Line 6301: Collecting options took 0.000 seconds at moses/Manager.cpp Line 141
+Line 6301: Search took 0.001 seconds
+BEST TRANSLATION: bppsdmp|UNK|UNK|UNK penghargaan gelar gerakan pemberdayaan|UNK|UNK|UNK petani terpadu|UNK|UNK|UNK [1111111]  [total=-332.882] core=(-300.000,-7.000,7.000,0.000,-2.639,0.000,-6.438,0.000,-78.934)
+Line 6301: Decision rule took 0.001 seconds total
+Line 6301: Additional reporting took 0.001 seconds total
+Line 6301: Translation took 0.002 seconds total
+Translating: itoklah bocah yang dilatih di sebuah kamp isis untok membunuh dangan senapan mesin yang ukurannye hampir sama dangan tubuh biak
+Line 6302: Initialize search took 0.000 seconds total
+Line 6302: Collecting options took 0.000 seconds at moses/Manager.cpp Line 141
+Line 6302: Search took 0.028 seconds
+BEST TRANSLATION: disainer bocah|UNK|UNK|UNK yang dilatih|UNK|UNK|UNK di sebuah kamp|UNK|UNK|UNK ketiganya untuk membunuh|UNK|UNK|UNK dengan senapan|UNK|UNK|UNK orang korban yang masih hilang akan dengan ini mereka [11111111111111111111]  [total=-551.413] core=(-500.000,-21.000,18.000,-12.236,-33.708,-1.901,-9.526,0.000,-129.077)
+Line 6302: Decision rule took 0.002 seconds total
+Line 6302: Additional reporting took 0.003 seconds total
+Line 6302: Translation took 0.033 seconds total
+Translating: dangan dinginnye , video juak menyebut ancaman terhadap indonesia dan malaysia bahwe biak akan daan suah bise mengalahkan pejuang isi
+Line 6303: Initialize search took 0.000 seconds total
+Line 6303: Collecting options took 0.000 seconds at moses/Manager.cpp Line 141
+Line 6303: Search took 0.032 seconds
+BEST TRANSLATION: dengan dinginnye|UNK|UNK|UNK , dia juga menyebut|UNK|UNK|UNK ancaman terhadap indonesia dan oleh mu bahwa mereka akan tidak pernah bisa mengalahkan|UNK|UNK|UNK pejuang|UNK|UNK|UNK isi|UNK|UNK|UNK [11111111111111111111]  [total=-560.265] core=(-500.000,-21.000,20.000,-10.792,-20.202,-2.557,-12.874,0.000,-151.959)
+Line 6303: Decision rule took 0.001 seconds total
+Line 6303: Additional reporting took 0.002 seconds total
+Line 6303: Translation took 0.035 seconds total
+Translating: anak-anak lakak iye membuang paspor biak ke tanah seballom salah satu mentor biak menyuruh untok membakarnye
+Line 6304: Initialize search took 0.000 seconds total
+Line 6304: Collecting options took 0.000 seconds at moses/Manager.cpp Line 141
+Line 6304: Search took 0.029 seconds
+BEST TRANSLATION: anak-anak setelah itu membuang|UNK|UNK|UNK paspor mereka di tanah yang salah satu mentor|UNK|UNK|UNK mereka menyuruh|UNK|UNK|UNK untuk membakarnye|UNK|UNK|UNK [1111111111111111]  [total=-443.721] core=(-400.000,-16.000,15.000,-13.289,-18.984,-2.360,-9.943,0.000,-107.612)
+Line 6304: Decision rule took 0.001 seconds total
+Line 6304: Additional reporting took 0.001 seconds total
+Line 6304: Translation took 0.031 seconds total
+Translating: kompetisi piala eropa yang berlangsong pade musim panas itok dimulekan di prancis bulan dappan
+Line 6305: Initialize search took 0.000 seconds total
+Line 6305: Collecting options took 0.000 seconds at moses/Manager.cpp Line 141
+Line 6305: Search took 0.019 seconds
+BEST TRANSLATION: kompetisi|UNK|UNK|UNK piala|UNK|UNK|UNK , yang berlangsung pada musim panas ini memanggil anak-anak di prancis bulan depan . [11111111111111]  [total=-228.406] core=(-200.000,-16.000,13.000,-9.551,-22.427,-0.886,-12.341,0.000,-75.930)
+Line 6305: Decision rule took 0.001 seconds total
+Line 6305: Additional reporting took 0.001 seconds total
+Line 6305: Translation took 0.021 seconds total
+Translating: dia bise jadi memegang jabatan tertinggi di planet itok
+Line 6306: Initialize search took 0.000 seconds total
+Line 6306: Collecting options took 0.000 seconds at moses/Manager.cpp Line 141
+Line 6306: Search took 0.010 seconds
+BEST TRANSLATION: dia|UNK|UNK|UNK bisa jadi memegang|UNK|UNK|UNK jabatan|UNK|UNK|UNK tertinggi di piala ini . [111111111]  [total=-312.776] core=(-300.000,-10.000,9.000,-2.095,-4.210,-3.841,-4.568,0.000,-43.267)
+Line 6306: Decision rule took 0.002 seconds total
+Line 6306: Additional reporting took 0.002 seconds total
+Line 6306: Translation took 0.012 seconds total
+Translating: tapi presiden as barack obama harus berusaha meninggikan tubuhnye untok menyematkan medali penghargaan di tigek polisi pahlawan bagi rakyat a
+Line 6307: Initialize search took 0.000 seconds total
+Line 6307: Collecting options took 0.000 seconds at moses/Manager.cpp Line 141
+Line 6307: Search took 0.011 seconds
+BEST TRANSLATION: tapi tidak diketahui as yang harus berusaha meninggikan|UNK|UNK|UNK tubuhnye|UNK|UNK|UNK untuk panas ini dimulai di prancis bulan depan [11111111111111111111]  [total=-252.530] core=(-200.000,-17.000,13.000,-16.362,-45.212,-2.494,-12.619,-6.000,-109.986)
+Line 6307: Decision rule took 0.001 seconds total
+Line 6307: Additional reporting took 0.001 seconds total
+Line 6307: Translation took 0.013 seconds total
+Translating: parade militer berkuda meriahkan milad ratu elizabeth ii ke - 90
+Line 6308: Initialize search took 0.000 seconds total
+Line 6308: Collecting options took 0.000 seconds at moses/Manager.cpp Line 141
+Line 6308: Search took 0.004 seconds
+BEST TRANSLATION: dia militer berkuda|UNK|UNK|UNK meriahkan|UNK|UNK|UNK milad|UNK|UNK|UNK ratu|UNK|UNK|UNK elizabeth|UNK|UNK|UNK ya ke - 90 [11111111111]  [total=-516.867] core=(-500.000,-11.000,11.000,-6.174,-10.192,-1.351,-4.510,0.000,-51.244)
+Line 6308: Decision rule took 0.001 seconds total
+Line 6308: Additional reporting took 0.001 seconds total
+Line 6308: Translation took 0.006 seconds total
+Translating: charles juak membarre ’ penghormatan kepade semangat ratu terhadap hal tantang kuda
+Line 6309: Initialize search took 0.000 seconds total
+Line 6309: Collecting options took 0.000 seconds at moses/Manager.cpp Line 141
+Line 6309: Search took 0.003 seconds
+BEST TRANSLATION: charles|UNK|UNK|UNK juga membarre|UNK|UNK|UNK di penghormatan|UNK|UNK|UNK kepada semangat ratu|UNK|UNK|UNK terhadap mempertaruhkan nyawa mereka untuk menyelamatkan orang lain [111111111111]  [total=-448.088] core=(-400.000,-16.000,10.000,-8.574,-14.560,-0.756,-21.452,0.000,-114.040)
+Line 6309: Decision rule took 0.001 seconds total
+Line 6309: Additional reporting took 0.001 seconds total
+Line 6309: Translation took 0.004 seconds total
+Translating: bbpp ketindan dorong p4s berkelanjutan , kaderisasi tani di lingkungannye
+Line 6310: Initialize search took 0.001 seconds total
+Line 6310: Collecting options took 0.000 seconds at moses/Manager.cpp Line 141
+Line 6310: Search took 0.005 seconds
+BEST TRANSLATION: parade militer berkuda meriahkan milad ratu elizabeth ii ke - 90 [1111111111]  [total=-13.095] core=(0.000,-11.000,4.000,0.000,-10.577,0.000,-16.229,0.000,-39.069)
+Line 6310: Decision rule took 0.001 seconds total
+Line 6310: Additional reporting took 0.001 seconds total
+Line 6310: Translation took 0.008 seconds total
+Translating: tokoh tani indonesia solusi permanen bkp kementan atasi gejolak harge pangan
+Line 6311: Initialize search took 0.000 seconds total
+Line 6311: Collecting options took 0.000 seconds at moses/Manager.cpp Line 141
+Line 6311: Search took 0.002 seconds
+BEST TRANSLATION: toko tani indonesia solusi|UNK|UNK|UNK permanen bkp|UNK|UNK|UNK penghargaan atasi|UNK|UNK|UNK gejolak|UNK|UNK|UNK harga pangan [11111111111]  [total=-418.610] core=(-400.000,-11.000,10.000,-1.010,-7.923,-0.758,-5.583,0.000,-57.112)
+Line 6311: Decision rule took 0.001 seconds total
+Line 6311: Additional reporting took 0.001 seconds total
+Line 6311: Translation took 0.003 seconds total
+Translating: dari sisi ekonomi , naiknye harge pangan jelas akan berpengaruh terhadap pengendalian inflasi
+Line 6312: Initialize search took 0.000 seconds total
+Line 6312: Collecting options took 0.000 seconds at moses/Manager.cpp Line 141
+Line 6312: Search took 0.009 seconds
+BEST TRANSLATION: dari sisi ekonomi , naiknye|UNK|UNK|UNK harga pangan jelas akan berpengaruh|UNK|UNK|UNK terhadap pengendalian|UNK|UNK|UNK inflasi|UNK|UNK|UNK [1111111111111]  [total=-421.917] core=(-400.000,-13.000,13.000,-6.298,-10.175,-0.762,-4.602,0.000,-66.300)
+Line 6312: Decision rule took 0.001 seconds total
+Line 6312: Additional reporting took 0.001 seconds total
+Line 6312: Translation took 0.010 seconds total
+Translating: tingginye volatilitas harge komodita pangan yang terjadi selama ’ itok mengindikasikan bahwe faktor distribusi sangat berpengaruh , jinye mei
+Line 6313: Initialize search took 0.000 seconds total
+Line 6313: Collecting options took 0.000 seconds at moses/Manager.cpp Line 141
+Line 6313: Search took 0.013 seconds
+BEST TRANSLATION: tingginya volatilitas|UNK|UNK|UNK harga pangan mengindikasikan bahwa faktor distribusi sangat berpengaruh|UNK|UNK|UNK , mei . katanya [1111111111111111111]  [total=-243.671] core=(-200.000,-14.000,13.000,-2.685,-23.610,-3.059,-8.745,-3.000,-103.503)
+Line 6313: Decision rule took 0.001 seconds total
+Line 6313: Additional reporting took 0.001 seconds total
+Line 6313: Translation took 0.015 seconds total
+Translating: untok provinsi jawa barat mendapat alokasi bantuan untok 72 gapoktan yang melayani 144 tti , jinye agek
+Line 6314: Initialize search took 0.000 seconds total
+Line 6314: Collecting options took 0.001 seconds at moses/Manager.cpp Line 141
+Line 6314: Search took 0.015 seconds
+BEST TRANSLATION: untuk provinsi jawa barat mendapat|UNK|UNK|UNK dari bantuannya ( lihat tabel 3.6 ) untuk 72|UNK|UNK|UNK gapoktan|UNK|UNK|UNK yang melayani|UNK|UNK|UNK sisi tti|UNK|UNK|UNK , katanya lagi [11111111111111111]  [total=-536.270] core=(-500.000,-22.000,15.000,-9.376,-17.480,-1.385,-16.943,0.000,-104.467)
+Line 6314: Decision rule took 0.001 seconds total
+Line 6314: Additional reporting took 0.001 seconds total
+Line 6314: Translation took 0.018 seconds total
+Translating: menurutnye , makassar adelah kota keduak yang mengadakan workshop lakak menggelar kegiatan serupa di palembang , provinsi sumatera selatan
+Line 6315: Initialize search took 0.000 seconds total
+Line 6315: Collecting options took 0.000 seconds at moses/Manager.cpp Line 141
+Line 6315: Search took 0.016 seconds
+BEST TRANSLATION: indonesia , makassar|UNK|UNK|UNK gapoktan yang melayani 144 setelah menggelar|UNK|UNK|UNK kegiatan serupa|UNK|UNK|UNK di palembang , provinsi jawa selatan [1111111111111111111]  [total=-335.452] core=(-300.000,-17.000,14.000,-3.153,-16.322,-1.467,-9.021,0.000,-98.520)
+Line 6315: Decision rule took 0.000 seconds total
+Line 6315: Additional reporting took 0.001 seconds total
+Line 6315: Translation took 0.017 seconds total
+Translating: menpora cabut sanksi pade pssi jadi sorotan media asing
+Line 6316: Initialize search took 0.000 seconds total
+Line 6316: Collecting options took 0.000 seconds at moses/Manager.cpp Line 141
+Line 6316: Search took 0.004 seconds
+BEST TRANSLATION: saya cabut|UNK|UNK|UNK sanksi pada palembang , jadi sorotan|UNK|UNK|UNK asing . [111111111]  [total=-232.091] core=(-200.000,-10.000,9.000,-14.644,-17.668,-1.880,-8.906,-6.000,-66.943)
+Line 6316: Decision rule took 0.001 seconds total
+Line 6316: Additional reporting took 0.001 seconds total
+Line 6316: Translation took 0.006 seconds total
+Translating: proyek airbus a400m airbus kinitok tertunda lantaran keterlambatan pengambangan dan biaya membengkak
+Line 6317: Initialize search took 0.000 seconds total
+Line 6317: Collecting options took 0.000 seconds at moses/Manager.cpp Line 141
+Line 6317: Search took 0.003 seconds
+BEST TRANSLATION: hal ini menunjukkan belum jelasnya kapan kompetisi nasional akan berlangsung kembali [111111111111]  [total=-19.919] core=(0.000,-11.000,3.000,-0.693,-34.211,0.000,-11.935,0.000,-44.302)
+Line 6317: Decision rule took 0.001 seconds total
+Line 6317: Additional reporting took 0.001 seconds total
+Line 6317: Translation took 0.004 seconds total
+Translating: menpora kepingin jose mourinho latih timnas indonesia disorot dunie
+Line 6318: Initialize search took 0.000 seconds total
+Line 6318: Collecting options took 0.000 seconds at moses/Manager.cpp Line 141
+Line 6318: Search took 0.001 seconds
+BEST TRANSLATION: saya punya rencana untuk membeli a400s dari eropa [111111111]  [total=-16.901] core=(0.000,-8.000,2.000,-2.890,-29.100,0.000,-9.893,0.000,-33.850)
+Line 6318: Decision rule took 0.001 seconds total
+Line 6318: Additional reporting took 0.001 seconds total
+Line 6318: Translation took 0.003 seconds total
+Translating: bukan rahasia bahwe jose mourinho kepincut menjadi manajer berikutnye di manchester united
+Line 6319: Initialize search took 0.000 seconds total
+Line 6319: Collecting options took 0.000 seconds at moses/Manager.cpp Line 141
+Line 6319: Search took 0.005 seconds
+BEST TRANSLATION: bukan rahasia bahwa jose|UNK|UNK|UNK mourinho kepincut|UNK|UNK|UNK cerita manajer|UNK|UNK|UNK berikutnya di manchester united|UNK|UNK|UNK [111111111111]  [total=-420.317] core=(-400.000,-12.000,12.000,-3.697,-9.365,-1.963,-7.791,0.000,-60.307)
+Line 6319: Decision rule took 0.001 seconds total
+Line 6319: Additional reporting took 0.001 seconds total
+Line 6319: Translation took 0.006 seconds total
+Translating: kepala ’ pelatih tim nasional kame ’ haruslah urang asing , disertai dangan pelatih lokal kame ’ sebagai asistennye
+Line 6320: Initialize search took 0.000 seconds total
+Line 6320: Collecting options took 0.000 seconds at moses/Manager.cpp Line 141
+Line 6320: Search took 0.019 seconds
+BEST TRANSLATION: kepala di pelatih tim nasional kami di bukan orang asing , disertai|UNK|UNK|UNK dengan pelatih lokal kami di sebagai asistennye|UNK|UNK|UNK [1111111111111111111]  [total=-264.463] core=(-200.000,-19.000,19.000,-33.871,-41.898,-3.114,-21.241,0.000,-134.477)
+Line 6320: Decision rule took 0.001 seconds total
+Line 6320: Additional reporting took 0.001 seconds total
+Line 6320: Translation took 0.021 seconds total
+Translating: erick bilang kalau gagal mendapatkan jose mourinho , tapi guus hiddink sebagai gantinye
+Line 6321: Initialize search took 0.000 seconds total
+Line 6321: Collecting options took 0.000 seconds at moses/Manager.cpp Line 141
+Line 6321: Search took 0.008 seconds
+BEST TRANSLATION: kalau berkata kalau indonesia mendapatkan jose|UNK|UNK|UNK mourinho , tapi guus|UNK|UNK|UNK hiddink|UNK|UNK|UNK sebagai gantinye|UNK|UNK|UNK [1111111111111]  [total=-436.156] core=(-400.000,-13.000,13.000,-16.615,-22.522,-2.880,-10.348,0.000,-82.566)
+Line 6321: Decision rule took 0.001 seconds total
+Line 6321: Additional reporting took 0.002 seconds total
+Line 6321: Translation took 0.011 seconds total
+Translating: jadi usah takut impor kalau pasokan beras berkurang
+Line 6322: Initialize search took 0.000 seconds total
+Line 6322: Collecting options took 0.000 seconds at moses/Manager.cpp Line 141
+Line 6322: Search took 0.005 seconds
+BEST TRANSLATION: jadi jangan takut impor|UNK|UNK|UNK setelah pasokan|UNK|UNK|UNK berkurang|UNK|UNK|UNK beras . [11111111]  [total=-331.482] core=(-300.000,-9.000,8.000,-4.191,-9.844,-1.556,-6.775,-3.000,-73.417)
+Line 6322: Decision rule took 0.001 seconds total
+Line 6322: Additional reporting took 0.001 seconds total
+Line 6322: Translation took 0.006 seconds total
+Translating: kementan juak akan mengambangkan tanaman penghasel bbn yang daan bersaing dangan keparluan pangan , misalnya kemiri sunan
+Line 6323: Initialize search took 0.000 seconds total
+Line 6323: Collecting options took 0.000 seconds at moses/Manager.cpp Line 141
+Line 6323: Search took 0.015 seconds
+BEST TRANSLATION: penghargaan akan mengambangkan|UNK|UNK|UNK penghasel|UNK|UNK|UNK bbn|UNK|UNK|UNK juga tanaman yang tidak bersaing|UNK|UNK|UNK dengan keparluan|UNK|UNK|UNK pangan , misalnya kemiri|UNK|UNK|UNK sunan|UNK|UNK|UNK [11111111111111111]  [total=-756.968] core=(-700.000,-17.000,17.000,-4.990,-10.025,-0.748,-6.963,-12.000,-138.446)
+Line 6323: Decision rule took 0.001 seconds total
+Line 6323: Additional reporting took 0.001 seconds total
+Line 6323: Translation took 0.016 seconds total
+Translating: sadiq khan meraih 1.310.143 suara , menggungguli zac goldsmith yang hanye menjaring suara dari 994.614 pemilih
+Line 6324: Initialize search took 0.000 seconds total
+Line 6324: Collecting options took 0.000 seconds at moses/Manager.cpp Line 141
+Line 6324: Search took 0.014 seconds
+BEST TRANSLATION: namun sebagai meraih|UNK|UNK|UNK 1.310.143|UNK|UNK|UNK suara|UNK|UNK|UNK , katanya lagi goldsmith|UNK|UNK|UNK yang hanya menjaring|UNK|UNK|UNK suara|UNK|UNK|UNK dari 994.614|UNK|UNK|UNK pemilih|UNK|UNK|UNK [1111111111111111]  [total=-851.556] core=(-800.000,-16.000,15.000,-8.504,-21.814,-0.178,-2.843,0.000,-127.776)
+Line 6324: Decision rule took 0.001 seconds total
+Line 6324: Additional reporting took 0.001 seconds total
+Line 6324: Translation took 0.015 seconds total
+Translating: mantan tim sukses david cameron madahkan bahwe pendekatan partai mengakibatkan partai konservatif mendapat stempel sebagai partai jahat
+Line 6325: Initialize search took 0.001 seconds total
+Line 6325: Collecting options took 0.000 seconds at moses/Manager.cpp Line 141
+Line 6325: Search took 0.008 seconds
+BEST TRANSLATION: mantan tim sukses|UNK|UNK|UNK david|UNK|UNK|UNK cameron mengatakan bahwa pendekatan dapat mengurangi mengakibatkan|UNK|UNK|UNK dapat mengurangi konservatif|UNK|UNK|UNK mendapat|UNK|UNK|UNK stempel sebagai dapat mengurangi jahat [11111111111111111]  [total=-537.435] core=(-500.000,-20.000,17.000,-6.735,-15.354,-2.774,-15.608,0.000,-105.481) 
+Line 6325: Decision rule took 0.001 seconds total
+Line 6325: Additional reporting took 0.001 seconds total
+Line 6325: Translation took 0.010 seconds total
+Translating: khan madahkan : saye berharap bahwe kita daan akan suah ditawarkan macamek pilehan tegas agek
+Line 6326: Initialize search took 0.001 seconds total
+Line 6326: Collecting options took 0.000 seconds at moses/Manager.cpp Line 141
+Line 6326: Search took 0.016 seconds
+BEST TRANSLATION: sebagai mengatakan : saya berharap bahwa kita tidak akan pernah peraih suara terbanyak dalam pilihan tegas|UNK|UNK|UNK lagi [111111111111111]  [total=-134.567] core=(-100.000,-17.000,12.000,-13.009,-29.952,-1.461,-19.424,0.000,-82.395)
+Line 6326: Decision rule took 0.001 seconds total
+Line 6326: Additional reporting took 0.002 seconds total
+Line 6326: Translation took 0.020 seconds total
+Translating: persaingan ketat memperlihatkan bagaimane goldsmith dan david cameron berulang kali mengaitkan sadiq khan dangan gerakan ekstrimis
+Line 6327: Initialize search took 0.000 seconds total
+Line 6327: Collecting options took 0.000 seconds at moses/Manager.cpp Line 141
+Line 6327: Search took 0.003 seconds
+BEST TRANSLATION: mantan tim sukses david cameron mengatakan bahwa kali namun sebagai dengan gerakan ekstrimis|UNK|UNK|UNK [1111111111111111]  [total=-135.278] core=(-100.000,-13.000,11.000,-12.734,-26.890,-0.263,-11.170,-4.000,-78.133)
+Line 6327: Decision rule took 0.001 seconds total
+Line 6327: Additional reporting took 0.001 seconds total
+Line 6327: Translation took 0.004 seconds total
+Translating: saye ingin mengucapkan terima kasih berhasel mewujudkan sesuatu yang mustahil
+Line 6328: Initialize search took 0.000 seconds total
+Line 6328: Collecting options took 0.000 seconds at moses/Manager.cpp Line 141
+Line 6328: Search took 0.004 seconds
+BEST TRANSLATION: saya ingin|UNK|UNK|UNK mengucapkan|UNK|UNK|UNK terima kasih|UNK|UNK|UNK berhasil mewujudkan|UNK|UNK|UNK sesuatu yang mustahil|UNK|UNK|UNK [1111111111]  [total=-509.472] core=(-500.000,-10.000,10.000,-3.569,-8.209,-0.113,-3.340,0.000,-36.852)
+Line 6328: Decision rule took 0.001 seconds total
+Line 6328: Additional reporting took 0.001 seconds total
+Line 6328: Translation took 0.006 seconds total
+Translating: saye karrap memikirkan almarhum ayah saye
+Line 6329: Initialize search took 0.000 seconds total
+Line 6329: Collecting options took 0.000 seconds at moses/Manager.cpp Line 141
+Line 6329: Search took 0.004 seconds
+BEST TRANSLATION: saya sering memikirkan|UNK|UNK|UNK kami tidak , saya . [111111]  [total=-119.750] core=(-100.000,-8.000,6.000,-13.152,-14.834,-8.476,-8.219,0.000,-40.028)
+Line 6329: Decision rule took 0.001 seconds total
+Line 6329: Additional reporting took 0.002 seconds total
+Line 6329: Translation took 0.007 seconds total
+Translating: die adelah seurang ayah yang hebat
+Line 6330: Initialize search took 0.001 seconds total
+Line 6330: Collecting options took 0.000 seconds at moses/Manager.cpp Line 141
+Line 6330: Search took 0.008 seconds
+BEST TRANSLATION: dia adalah seorang ayah yang hebat [111111]  [total=-13.247] core=(0.000,-6.000,6.000,-3.281,-6.693,-1.950,-5.059,0.000,-34.101)
+Line 6330: Decision rule took 0.001 seconds total
+Line 6330: Additional reporting took 0.001 seconds total
+Line 6330: Translation took 0.010 seconds total
+Translating: saye sangat bangga untok madahkan bahwe london memanggil warganye untok dipileh menjadi walikota
+Line 6331: Initialize search took 0.000 seconds total
+Line 6331: Collecting options took 0.000 seconds at moses/Manager.cpp Line 141
+Line 6331: Search took 0.005 seconds
+BEST TRANSLATION: saya ingin mengucapkan terima untuk mengatakan bahwa london memanggil|UNK|UNK|UNK warganye|UNK|UNK|UNK untuk dipilih di walikota|UNK|UNK|UNK [1111111111111]  [total=-336.552] core=(-300.000,-14.000,12.000,-10.607,-19.095,-2.055,-11.674,0.000,-88.532)
+Line 6331: Decision rule took 0.000 seconds total
+Line 6331: Additional reporting took 0.001 seconds total
+Line 6331: Translation took 0.007 seconds total
+Translating: goldsmith mengucapkan selamat kepada walikota baru : saye mengucapkan selamat dan die dapat labbeh berhasel memimpin london daripade boris johnson
+Line 6332: Initialize search took 0.000 seconds total
+Line 6332: Collecting options took 0.000 seconds at moses/Manager.cpp Line 141
+Line 6332: Search took 0.030 seconds
+BEST TRANSLATION: goldsmith|UNK|UNK|UNK mengucapkan|UNK|UNK|UNK selamat kepada walikota|UNK|UNK|UNK baru : saya mengucapkan|UNK|UNK|UNK selamat dan dirinya dapat lebih berhasil memimpin|UNK|UNK|UNK london daripada boris|UNK|UNK|UNK orang [11111111111111111111]  [total=-640.374] core=(-600.000,-20.000,19.000,-20.855,-32.059,-2.332,-16.444,0.000,-99.671)
+Line 6332: Decision rule took 0.001 seconds total
+Line 6332: Additional reporting took 0.001 seconds total
+Line 6332: Translation took 0.031 seconds total
+Translating: saye urang yang tanang , bahkan waktu saye masih mudak
+Line 6333: Initialize search took 0.000 seconds total
+Line 6333: Collecting options took 0.000 seconds at moses/Manager.cpp Line 141
+Line 6333: Search took 0.022 seconds
+BEST TRANSLATION: saya orang yang tenang , bahkan waktu saya masih muda . [1111111111]  [total=-18.801] core=(0.000,-11.000,8.000,-2.751,-9.906,-1.122,-6.092,0.000,-54.853)
+Line 6333: Decision rule took 0.002 seconds total
+Line 6333: Additional reporting took 0.002 seconds total
+Line 6333: Translation took 0.024 seconds total
+Translating: saye ballom suah masuk disko labbeh dari 10 kali , jinye
+Line 6334: Initialize search took 0.001 seconds total
+Line 6334: Collecting options took 0.000 seconds at moses/Manager.cpp Line 141
+Line 6334: Search took 0.012 seconds
+BEST TRANSLATION: saya ballom|UNK|UNK|UNK pernah masuk disko|UNK|UNK|UNK lebih dari 10 kali , katanya [11111111111]  [total=-231.156] core=(-200.000,-11.000,10.000,-9.832,-13.902,-1.935,-8.537,0.000,-74.631)
+Line 6334: Decision rule took 0.001 seconds total
+Line 6334: Additional reporting took 0.001 seconds total
+Line 6334: Translation took 0.014 seconds total
+Translating: saye menantikan momen penting itok begitu lama tapi saye sangat senang
+Line 6335: Initialize search took 0.000 seconds total
+Line 6335: Collecting options took 0.000 seconds at moses/Manager.cpp Line 141
+Line 6335: Search took 0.018 seconds
+BEST TRANSLATION: saya menantikan|UNK|UNK|UNK momen|UNK|UNK|UNK penting ini begitu lama tapi saya sangat senang [11111111111]  [total=-219.479] core=(-200.000,-11.000,11.000,-11.502,-16.036,-1.915,-6.787,0.000,-50.861)
+Line 6335: Decision rule took 0.001 seconds total
+Line 6335: Additional reporting took 0.001 seconds total
+Line 6335: Translation took 0.020 seconds total
+Translating: saye daan tau apa yang akan terjadi musim dappan barang jak itok adelah musim yang ajaib
+Line 6336: Initialize search took 0.000 seconds total
+Line 6336: Collecting options took 0.000 seconds at moses/Manager.cpp Line 141
+Line 6336: Search took 0.021 seconds
+BEST TRANSLATION: saya tidak tahu apa yang akan terjadi musim depan saja barang ini adalah musim yang ajaib|UNK|UNK|UNK [1111111111111111]  [total=-136.665] core=(-100.000,-16.000,16.000,-18.479,-23.642,-4.416,-12.699,-4.000,-85.635)
+Line 6336: Decision rule took 0.001 seconds total
+Line 6336: Additional reporting took 0.001 seconds total
+Line 6336: Translation took 0.023 seconds total
+Translating: produser hollywood incar kisah heroik leicester city ke layar perak
+Line 6337: Initialize search took 0.001 seconds total
+Line 6337: Collecting options took 0.000 seconds at moses/Manager.cpp Line 141
+Line 6337: Search took 0.007 seconds
+BEST TRANSLATION: produser|UNK|UNK|UNK hollywood|UNK|UNK|UNK incar|UNK|UNK|UNK peningkatan heroik|UNK|UNK|UNK leicester|UNK|UNK|UNK city|UNK|UNK|UNK ke perak|UNK|UNK|UNK [1111111111]  [total=-740.690] core=(-700.000,-9.000,9.000,-8.137,-9.381,0.000,-3.478,0.000,-94.581)
+Line 6337: Decision rule took 0.001 seconds total
+Line 6337: Additional reporting took 0.001 seconds total
+Line 6337: Translation took 0.009 seconds total
+Translating: terlihat makanan berserakan di lantai pantry , bagasi kabin retak dan terbelah dan panel pesawat lepas dari engselnye
+Line 6338: Initialize search took 0.000 seconds total
+Line 6338: Collecting options took 0.000 seconds at moses/Manager.cpp Line 141
+Line 6338: Search took 0.022 seconds
+BEST TRANSLATION: pemerintah makanan berserakan|UNK|UNK|UNK di lantai sini , bagasi kabin|UNK|UNK|UNK retak|UNK|UNK|UNK dan kata dan panel|UNK|UNK|UNK pesawat lepas dari engselnye|UNK|UNK|UNK [111111111111111111]  [total=-557.858] core=(-500.000,-18.000,17.000,-10.102,-18.894,-0.606,-5.109,0.000,-144.631)
+Line 6338: Decision rule took 0.001 seconds total
+Line 6338: Additional reporting took 0.001 seconds total
+Line 6338: Translation took 0.023 seconds total
+Name:moses      VmPeak:284088 kB        VmRSS:148004 kB RSSMax:151568 kB        user:91.643     sys:6.244       CPU:97.886      real:101.881
+(base) leo@Leo:.../NLP/smt
+$ $pathmoses/scripts/generic/multi-bleu.perl ref.txt < out.txt
+BLEU = 68.10, 74.5/69.2/66.0/63.2 (BP=1.000, ratio=1.018, hyp_len=61383, ref_len=60321)
+It is not advisable to publish scores from multi-bleu.perl.  The scores depend on your tokenizer, which is unlikely to be reproducible from your paper or consistent across research groups.  Instead you should detokenize then use mteval-v14.pl, which has a standard tokenization.  Scores from multi-bleu.perl can still be used for internal purposes when you have a consistent tokenizer.

@@ -1,0 +1,8 @@
+corpus/*
+giza.id-smb/
+giza.smb-id/
+lm/*
+model/
+intest.txt
+out.txt
+ref.txt
