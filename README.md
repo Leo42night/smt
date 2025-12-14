@@ -5,7 +5,7 @@ Mata Kuliah: Pemrosesan Bahasa Alami (2025 Ganjil).
 - [Link Notebook NMT](https://colab.research.google.com/drive/1HsdpHutcQfHspofD5jWOHVH7pzCUG-C1?usp=drive_link)
 - [Link Video Perbandingan NMT & SMT](https://youtu.be/LQIp7bF-0Fc?si=nh4sADnOKWgwzBEi)
 ## Setup
-- Tutorial ini menggunakan terminal WSL Di Debian trixie (Debian 12/13), jadi mungkin akan ada perbedaan dependensi.
+- Tutorial ini menggunakan terminal WSL Di Debian trixie (Debian 12/13), jadi mungkin akan ada perbedaan dependensi. ([Tutor Install WSL](https://chatgpt.com/share/69231906-b798-8008-8f24-9c553d09204e))
 - Donwload [Code Moses versi 4 (2017) dan Binary nya](http://www2.statmt.org/moses/?n=moses.releases), sesuaikan binary dengan versi repo anda.
 - Download [tools tambahan Moses](https://drive.google.com/drive/folders/1A71fw5uArOPfU4OaS6eGtJrvVVll61r4?usp=drive_link) (mkcls, GIZA++, & snt2cooc.out), file ini perlu ada di sub-folder `bin/`.
 - [Srilm](https://drive.google.com/file/d/1xaxYrukhW1BtusUVeUia3TWu2suDTs-9/view?usp=drive_link)
@@ -141,3 +141,4 @@ $ source ~/.bashrc
 # cara cek: echo $ROOTPATH
 
 ```
+
