@@ -1,14 +1,15 @@
 # Tugas Besar NLP
 Mata Kuliah: Pemrosesan Bahasa Alami (2025 Ganjil).
 - Link Dataset [Kaggle.com / Akhmad Fakhri / Indo - Melayu Sambas](https://www.kaggle.com/datasets/ahmdfkhr3/translasi-bahasa-indonesia-melayu-sambas)
-- [Link Laporan](https://docs.google.com/document/d/13kArKcZxSMtIK1NfY1xjrmnPuMkNDk_aJipFPJufNJQ/edit?usp=sharing)
-
+- [Link Laporan SMT](https://docs.google.com/document/d/13kArKcZxSMtIK1NfY1xjrmnPuMkNDk_aJipFPJufNJQ/edit?usp=sharing)
+- [Link Notebook NMT](https://colab.research.google.com/drive/1HsdpHutcQfHspofD5jWOHVH7pzCUG-C1?usp=drive_link)
+- [Link Video Perbandingan NMT & SMT](https://youtu.be/LQIp7bF-0Fc?si=nh4sADnOKWgwzBEi)
 ## Setup
 - Tutorial ini menggunakan terminal WSL Di Debian trixie (Debian 12/13), jadi mungkin akan ada perbedaan dependensi.
 - Donwload [Code Moses versi 4 (2017) dan Binary nya](http://www2.statmt.org/moses/?n=moses.releases), sesuaikan binary dengan versi repo anda.
 - Download [tools tambahan Moses](https://drive.google.com/drive/folders/1A71fw5uArOPfU4OaS6eGtJrvVVll61r4?usp=drive_link) (mkcls, GIZA++, & snt2cooc.out), file ini perlu ada di sub-folder `bin/`.
 - [Srilm](https://drive.google.com/file/d/1xaxYrukhW1BtusUVeUia3TWu2suDTs-9/view?usp=drive_link)
-
+- [Link Video Tutorial SMT](https://drive.google.com/file/d/1_rVKu8u-8oLshLfXLtKWFVHfqFzxgqYU/view?usp=drive_link)
 ## Moses
 Apa itu Moses?<br>
 Moses adalah open-source Statistical Machine Translation (SMT) framework.
@@ -138,4 +139,5 @@ $ nano ~/.bashrc
 # Ctrl+X untuk keluar, Y untuk save.
 $ source ~/.bashrc
 # cara cek: echo $ROOTPATH
+
 ```
